@@ -6,9 +6,9 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/t2o2/local-whisper/actions/workflows/ci.yml"><img src="https://github.com/t2o2/local-whisper/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <a href="https://github.com/t2o2/local-whisper/actions/workflows/ci.yml"><img src="https://github.com/t2o2/local-whisper/actions/workflows/ci.yml/badge.svg?branch=main" alt="CI"></a>
   <a href="https://github.com/t2o2/local-whisper/releases/latest"><img src="https://img.shields.io/github/v/release/t2o2/local-whisper" alt="Latest Release"></a>
-  <a href="https://github.com/t2o2/local-whisper/blob/main/LICENSE"><img src="https://img.shields.io/github/license/t2o2/local-whisper" alt="License"></a>
+  <img src="https://img.shields.io/badge/license-MIT-blue" alt="License">
 </p>
 
 ---
