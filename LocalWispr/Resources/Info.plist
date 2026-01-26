@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CFBundleName</key>
+    <string>LocalWispr</string>
+    <key>CFBundleDisplayName</key>
+    <string>LocalWispr</string>
+    <key>CFBundleIdentifier</key>
+    <string>com.localwispr.app</string>
+    <key>CFBundleVersion</key>
+    <string>1</string>
+    <key>CFBundleShortVersionString</key>
+    <string>1.0.0</string>
+    <key>CFBundlePackageType</key>
+    <string>APPL</string>
+    <key>CFBundleExecutable</key>
+    <string>LocalWispr</string>
+    <key>LSMinimumSystemVersion</key>
+    <string>14.0</string>
+    <key>LSUIElement</key>
+    <true/>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>LocalWispr needs microphone access to record audio for voice-to-text transcription. All processing happens locally on your device.</string>
+    <key>NSHumanReadableCopyright</key>
+    <string>Copyright © 2024 LocalWispr. All rights reserved.</string>
+</dict>
+</plist>
