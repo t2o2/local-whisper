@@ -435,19 +435,20 @@ struct ShortcutSettingsView: View {
                     Text("Quick Presets")
                         .font(.headline)
                     
-                    // First row
+                    // First row - Primary options
                     HStack(spacing: 12) {
                         PresetShortcutButton(
-                            label: "🎤 Mic (F5)",
-                            keyCode: UInt16(kVK_F5),
+                            label: "🎙️ Mic Key",
+                            keyCode: 179,  // Globe/Fn key with mic icon on modern Macs
                             modifiers: [],
-                            currentShortcut: $currentShortcut
+                            currentShortcut: $currentShortcut,
+                            isRecommended: true
                         )
                         
                         PresetShortcutButton(
-                            label: "🌐 Globe",
-                            keyCode: 179,  // Globe key on newer Macs
-                            modifiers: [],
+                            label: "⌃⇧Space",
+                            keyCode: UInt16(kVK_Space),
+                            modifiers: [.maskControl, .maskShift],
                             currentShortcut: $currentShortcut
                         )
                     }
@@ -455,23 +456,33 @@ struct ShortcutSettingsView: View {
                     // Second row
                     HStack(spacing: 12) {
                         PresetShortcutButton(
-                            label: "⌃⇧Space",
-                            keyCode: UInt16(kVK_Space),
-                            modifiers: [.maskControl, .maskShift],
-                            currentShortcut: $currentShortcut
-                        )
-                        
-                        PresetShortcutButton(
                             label: "⌥Space",
                             keyCode: UInt16(kVK_Space),
                             modifiers: [.maskAlternate],
                             currentShortcut: $currentShortcut
                         )
+                        
+                        PresetShortcutButton(
+                            label: "Fn+F5",
+                            keyCode: UInt16(kVK_F5),
+                            modifiers: [],
+                            currentShortcut: $currentShortcut
+                        )
                     }
                     
-                    Text("Note: To use 🎤 Mic or 🌐 Globe, disable macOS Dictation in System Settings → Keyboard → Dictation")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
+                    // Instructions for Mic Key
+                    VStack(alignment: .leading, spacing: 8) {
+                        Label("To use the 🎙️ Mic Key", systemImage: "info.circle")
+                            .font(.caption)
+                            .fontWeight(.medium)
+                        
+                        Text("1. Open System Settings → Keyboard → Dictation\n2. Turn OFF Dictation (or change its shortcut)\n3. Select \"🎙️ Mic Key\" above")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                    .padding(12)
+                    .background(Color.orange.opacity(0.1))
+                    .cornerRadius(8)
                 }
                 
                 // Usage instructions
@@ -685,6 +696,7 @@ struct PresetShortcutButton: View {
     let keyCode: UInt16
     let modifiers: CGEventFlags
     @Binding var currentShortcut: String
+    var isRecommended: Bool = false
     
     var isSelected: Bool {
         HotkeyManager.shared.keyCode == keyCode &&
@@ -696,13 +708,24 @@ struct PresetShortcutButton: View {
             HotkeyManager.shared.setHotkey(keyCode: keyCode, modifiers: modifiers)
             currentShortcut = HotkeyManager.shared.shortcutString
         } label: {
-            Text(label)
-                .font(.system(.caption, design: .rounded, weight: .medium))
-                .padding(.horizontal, 12)
-                .padding(.vertical, 8)
-                .background(isSelected ? Color.accentColor : Color(nsColor: .controlBackgroundColor))
-                .foregroundStyle(isSelected ? .white : .primary)
-                .cornerRadius(8)
+            HStack(spacing: 4) {
+                Text(label)
+                    .font(.system(.caption, design: .rounded, weight: .medium))
+                if isRecommended && !isSelected {
+                    Text("★")
+                        .font(.caption2)
+                        .foregroundStyle(.orange)
+                }
+            }
+            .padding(.horizontal, 12)
+            .padding(.vertical, 8)
+            .background(isSelected ? Color.accentColor : (isRecommended ? Color.orange.opacity(0.15) : Color(nsColor: .controlBackgroundColor)))
+            .foregroundStyle(isSelected ? .white : .primary)
+            .cornerRadius(8)
+            .overlay(
+                RoundedRectangle(cornerRadius: 8)
+                    .stroke(isRecommended && !isSelected ? Color.orange.opacity(0.5) : Color.clear, lineWidth: 1)
+            )
         }
         .buttonStyle(.plain)
     }

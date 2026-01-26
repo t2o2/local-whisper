@@ -369,7 +369,7 @@ final class HotkeyManager {
         case kVK_Tab: keyString = "Tab"
         case kVK_Escape: keyString = "Esc"
         case 63: keyString = "Fn"  // Fn key
-        case 179: keyString = "🌐"  // Globe key on newer Macs
+        case 179: keyString = "🎙️"  // Mic/Globe key on newer Macs
         case kVK_F1: keyString = "F1"
         case kVK_F2: keyString = "F2"
         case kVK_F3: keyString = "F3"
