@@ -1,4 +1,0 @@
-module BasicContainers {
-    header "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/BasicContainers.build/BasicContainers-Swift.h"
-    requires objc
-}

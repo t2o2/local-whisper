@@ -1,4 +1,0 @@
-module Tokenizers {
-    header "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Tokenizers.build/Tokenizers-Swift.h"
-    requires objc
-}

@@ -1,4 +1,0 @@
-module HashTreeCollections {
-    header "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/HashTreeCollections.build/HashTreeCollections-Swift.h"
-    requires objc
-}

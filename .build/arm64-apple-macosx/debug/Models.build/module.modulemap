@@ -1,4 +1,0 @@
-module Models {
-    header "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Models.build/Models-Swift.h"
-    requires objc
-}

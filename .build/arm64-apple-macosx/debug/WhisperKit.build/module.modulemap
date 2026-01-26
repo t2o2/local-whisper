@@ -1,4 +1,0 @@
-module WhisperKit {
-    header "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/WhisperKit.build/WhisperKit-Swift.h"
-    requires objc
-}
