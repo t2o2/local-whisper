@@ -2,18 +2,14 @@
 
 LocalWhisper uses [WhisperKit](https://github.com/argmaxinc/WhisperKit), which provides optimized CoreML models for Apple Silicon.
 
-## Model Comparison
+## Available Models
 
 | Model | Parameters | Disk Size | Speed Factor* | WER** | Memory | Best For |
 |-------|------------|-----------|---------------|-------|--------|----------|
 | `tiny` | 39M | ~75MB | ~180x | ~17% | ~1GB | Quick tests |
-| `tiny.en` | 39M | ~75MB | ~190x | ~16% | ~1GB | English-only, fastest |
 | `base` | 74M | ~140MB | ~111x | ~15% | ~1GB | **Default, good balance** |
-| `base.en` | 74M | ~140MB | ~120x | ~14% | ~1GB | English-only dictation |
 | `small` | 244M | ~460MB | ~35x | ~13% | ~2GB | Better accuracy |
-| `small.en` | 244M | ~460MB | ~40x | ~12% | ~2GB | English, balanced |
 | `medium` | 769M | ~1.5GB | ~15x | ~11% | ~4-5GB | High accuracy |
-| `medium.en` | 769M | ~1.5GB | ~18x | ~10% | ~4-5GB | English, professional |
 | `large-v3` | 1550M | ~3GB | ~8x | ~8% | ~6-7GB | Maximum accuracy |
 | `large-v3_turbo` | 809M | ~1.6GB | ~25x | ~9% | ~4GB | **Fast + accurate** |
 
@@ -37,11 +33,10 @@ How long you'll wait after releasing the record button:
 
 | Your Priority | Recommended Model | Why |
 |---------------|-------------------|-----|
-| 🚀 **Speed** (instant dictation) | `base.en` or `tiny.en` | Near-instant, good enough accuracy |
-| ⚖️ **Balanced** (general use) | `base` or `small.en` | Good accuracy, minimal latency |
+| 🚀 **Speed** (instant dictation) | `tiny` or `base` | Near-instant, good enough accuracy |
+| ⚖️ **Balanced** (general use) | `base` or `small` | Good accuracy, minimal latency |
 | 🎯 **Accuracy** (professional) | `large-v3_turbo` | Best speed/accuracy ratio |
 | 🏆 **Maximum quality** | `large-v3` | Lowest error rate, worth the wait |
-| 🌍 **Multilingual** | `small` or `large-v3` | Full language support (avoid `.en`) |
 | 💾 **Low memory** (8GB Mac) | `tiny` or `base` | Fits comfortably in RAM |
 
 ## Changing Models
