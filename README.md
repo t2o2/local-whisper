@@ -62,6 +62,10 @@ Click the menu bar icon to:
 - Select transcription model (tiny → large-v3)
 - Adjust settings
 
+<p align="center">
+  <img src="docs/images/settings.png" alt="LocalWhisper Settings" width="600">
+</p>
+
 ## Documentation
 
 - [Model Guide](docs/models.md) — Model comparison, benchmarks, recommendations
