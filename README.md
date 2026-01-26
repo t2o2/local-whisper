@@ -17,7 +17,16 @@ A macOS menu bar app for local speech-to-text powered by [WhisperKit](https://gi
 
 ## Quick Start
 
-### Install
+### Install (Recommended)
+
+1. Download the latest `.dmg` from [GitHub Releases](https://github.com/t2o2/local-whisper/releases/latest)
+2. Open the DMG and drag **LocalWhisper** to your Applications folder
+3. Open LocalWhisper from Applications
+4. Grant **Microphone** and **Accessibility** permissions when prompted
+
+> **Note**: On first launch, you may see "unidentified developer" warning. Right-click the app and select "Open" to bypass this.
+
+### Install from Source
 
 ```bash
 git clone https://github.com/t2o2/local-whisper.git
