@@ -96,19 +96,22 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         statusItem.button?.image = createStatusIcon(dotColor: dotColor)
     }
     
-    /// Create a menu bar icon with a microphone and colored status dot
+    /// Create a menu bar icon with a microphone emoji and colored status dot
     private func createStatusIcon(dotColor: NSColor) -> NSImage {
-        let size = NSSize(width: 22, height: 22)
+        let size = NSSize(width: 28, height: 22)
         let image = NSImage(size: size, flipped: false) { rect in
-            // Draw microphone symbol using SF Symbol
-            if let micImage = NSImage(systemSymbolName: "mic.fill", accessibilityDescription: "Microphone") {
-                let config = NSImage.SymbolConfiguration(pointSize: 14, weight: .medium)
-                let configuredImage = micImage.withSymbolConfiguration(config)
-                
-                // Draw microphone centered, slightly left to make room for dot
-                let micRect = NSRect(x: 2, y: 4, width: 14, height: 14)
-                configuredImage?.draw(in: micRect)
-            }
+            // Draw studio microphone emoji
+            let emoji = "🎙️"
+            let font = NSFont.systemFont(ofSize: 14)
+            let attributes: [NSAttributedString.Key: Any] = [
+                .font: font
+            ]
+            let emojiSize = emoji.size(withAttributes: attributes)
+            let emojiPoint = NSPoint(
+                x: 2,
+                y: (rect.height - emojiSize.height) / 2
+            )
+            emoji.draw(at: emojiPoint, withAttributes: attributes)
             
             // Draw colored status dot in bottom-right corner
             let dotSize: CGFloat = 6
