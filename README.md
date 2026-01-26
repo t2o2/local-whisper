@@ -5,6 +5,12 @@
   100% offline • Apple Silicon optimized • Menu bar app
 </p>
 
+<p align="center">
+  <a href="https://github.com/t2o2/local-whisper/actions/workflows/ci.yml"><img src="https://github.com/t2o2/local-whisper/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <a href="https://github.com/t2o2/local-whisper/releases/latest"><img src="https://img.shields.io/github/v/release/t2o2/local-whisper" alt="Latest Release"></a>
+  <a href="https://github.com/t2o2/local-whisper/blob/main/LICENSE"><img src="https://img.shields.io/github/license/t2o2/local-whisper" alt="License"></a>
+</p>
+
 ---
 
 A macOS menu bar app for local speech-to-text powered by [WhisperKit](https://github.com/argmaxinc/WhisperKit). Press a hotkey, speak, and text appears in any app — no internet required.
@@ -14,7 +20,7 @@ A macOS menu bar app for local speech-to-text powered by [WhisperKit](https://gi
 ### Install
 
 ```bash
-git clone https://github.com/yourusername/local-whisper.git
+git clone https://github.com/t2o2/local-whisper.git
 cd local-whisper
 swift build && swift run
 ```

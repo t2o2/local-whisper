@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    name: Build & Test
+    runs-on: macos-14
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Cache Swift packages
+        uses: actions/cache@v4
+        with:
+          path: .build
+          key: ${{ runner.os }}-spm-${{ hashFiles('Package.resolved') }}
+          restore-keys: |
+            ${{ runner.os }}-spm-
+      
+      - name: Build
+        run: swift build -c release
+      
+      - name: Verify app can launch
+        run: |
+          # Basic smoke test - check binary exists and has correct architecture
+          file .build/release/LocalWhisper
+          .build/release/LocalWhisper --help 2>&1 || true

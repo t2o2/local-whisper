@@ -115,7 +115,7 @@ final class AppState: ObservableObject {
         self.language = UserDefaults.standard.string(forKey: "language") ?? "en"
         self.useClipboardFallback = UserDefaults.standard.object(forKey: "useClipboardFallback") as? Bool ?? true
         self.customVocabulary = UserDefaults.standard.stringArray(forKey: "customVocabulary") ?? []
-        self.muteAudioWhileRecording = UserDefaults.standard.object(forKey: "muteAudioWhileRecording") as? Bool ?? false
+        self.muteAudioWhileRecording = UserDefaults.standard.object(forKey: "muteAudioWhileRecording") as? Bool ?? true
         
         // Load proxy settings
         self.proxyEnabled = UserDefaults.standard.bool(forKey: "proxyEnabled")

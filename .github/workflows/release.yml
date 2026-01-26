@@ -1,0 +1,145 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+env:
+  APP_NAME: LocalWhisper
+  GITHUB_REPO: t2o2/local-whisper
+
+jobs:
+  release:
+    name: Build & Release
+    runs-on: macos-14
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Get version from tag
+        id: version
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/v}
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+          echo "Building version: $VERSION"
+      
+      - name: Cache Swift packages
+        uses: actions/cache@v4
+        with:
+          path: .build
+          key: ${{ runner.os }}-spm-${{ hashFiles('Package.resolved') }}
+          restore-keys: |
+            ${{ runner.os }}-spm-
+      
+      - name: Build release
+        run: |
+          chmod +x scripts/release.sh
+          ./scripts/release.sh ${{ steps.version.outputs.VERSION }}
+      
+      - name: Sign update with Sparkle EdDSA
+        if: ${{ secrets.SPARKLE_PRIVATE_KEY != '' }}
+        env:
+          SPARKLE_PRIVATE_KEY: ${{ secrets.SPARKLE_PRIVATE_KEY }}
+        run: |
+          VERSION=${{ steps.version.outputs.VERSION }}
+          ZIP_FILE="dist/${{ env.APP_NAME }}-$VERSION.zip"
+          
+          # Write private key to temp file
+          echo "$SPARKLE_PRIVATE_KEY" > /tmp/sparkle_private_key
+          
+          # Download Sparkle sign_update tool
+          curl -L -o /tmp/Sparkle.tar.xz https://github.com/sparkle-project/Sparkle/releases/download/2.5.0/Sparkle-2.5.0.tar.xz
+          mkdir -p /tmp/sparkle
+          tar -xf /tmp/Sparkle.tar.xz -C /tmp/sparkle
+          
+          # Sign the update
+          SIGNATURE=$(/tmp/sparkle/bin/sign_update "$ZIP_FILE" -f /tmp/sparkle_private_key)
+          echo "SPARKLE_SIGNATURE=$SIGNATURE" >> $GITHUB_ENV
+          
+          # Cleanup
+          rm -f /tmp/sparkle_private_key
+      
+      - name: Generate appcast.xml
+        run: |
+          VERSION=${{ steps.version.outputs.VERSION }}
+          ZIP_FILE="dist/${{ env.APP_NAME }}-$VERSION.zip"
+          DOWNLOAD_URL="https://github.com/${{ env.GITHUB_REPO }}/releases/download/v$VERSION/${{ env.APP_NAME }}-$VERSION.zip"
+          FILE_SIZE=$(stat -f%z "$ZIP_FILE")
+          PUB_DATE=$(date -R)
+          
+          # Get signature if available
+          ED_SIGNATURE="${SPARKLE_SIGNATURE:-}"
+          ED_ATTR=""
+          if [ -n "$ED_SIGNATURE" ]; then
+            ED_ATTR="sparkle:edSignature=\"$ED_SIGNATURE\""
+          fi
+          
+          cat > appcast.xml << EOF
+          <?xml version="1.0" encoding="utf-8"?>
+          <rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" xmlns:dc="http://purl.org/dc/elements/1.1/">
+              <channel>
+                  <title>${{ env.APP_NAME }} Updates</title>
+                  <link>https://github.com/${{ env.GITHUB_REPO }}</link>
+                  <description>Most recent updates to ${{ env.APP_NAME }}</description>
+                  <language>en</language>
+                  <item>
+                      <title>Version $VERSION</title>
+                      <description><![CDATA[
+                          <h2>What's New in $VERSION</h2>
+                          <p>See release notes on GitHub.</p>
+                      ]]></description>
+                      <pubDate>$PUB_DATE</pubDate>
+                      <enclosure 
+                          url="$DOWNLOAD_URL"
+                          sparkle:version="$VERSION"
+                          sparkle:shortVersionString="$VERSION"
+                          length="$FILE_SIZE"
+                          type="application/octet-stream"
+                          $ED_ATTR
+                      />
+                      <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+                  </item>
+              </channel>
+          </rss>
+          EOF
+          
+          echo "Generated appcast.xml:"
+          cat appcast.xml
+      
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/${{ env.APP_NAME }}-${{ steps.version.outputs.VERSION }}.dmg
+            dist/${{ env.APP_NAME }}-${{ steps.version.outputs.VERSION }}.zip
+          generate_release_notes: true
+          draft: false
+          prerelease: false
+      
+      - name: Deploy appcast.xml to gh-pages
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # Save appcast.xml
+          cp appcast.xml /tmp/appcast.xml
+          
+          # Check if gh-pages exists
+          if git ls-remote --exit-code --heads origin gh-pages; then
+            git fetch origin gh-pages
+            git checkout gh-pages
+          else
+            git checkout --orphan gh-pages
+            git rm -rf . || true
+          fi
+          
+          # Copy appcast.xml
+          cp /tmp/appcast.xml appcast.xml
+          
+          git add appcast.xml
+          git commit -m "Update appcast.xml for v${{ steps.version.outputs.VERSION }}" || echo "No changes to commit"
+          git push origin gh-pages

@@ -5,7 +5,7 @@ set -e
 # Usage: ./generate-appcast.sh <version> <download-url> [release-notes]
 
 VERSION="${1:-1.0.0}"
-DOWNLOAD_URL="${2:-https://github.com/yourusername/local-whisper/releases/download/v$VERSION/LocalWhisper-$VERSION.zip}"
+DOWNLOAD_URL="${2:-https://github.com/t2o2/local-whisper/releases/download/v$VERSION/LocalWhisper-$VERSION.zip}"
 RELEASE_NOTES="${3:-Bug fixes and improvements.}"
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -34,7 +34,7 @@ cat > "$APPCAST_FILE" << EOF
 <rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" xmlns:dc="http://purl.org/dc/elements/1.1/">
     <channel>
         <title>LocalWhisper Updates</title>
-        <link>https://github.com/yourusername/local-whisper</link>
+        <link>https://github.com/t2o2/local-whisper</link>
         <description>Most recent updates to LocalWhisper</description>
         <language>en</language>
         <item>

@@ -7,9 +7,9 @@ set -e
 VERSION="${1:-1.0.0}"
 APP_NAME="LocalWhisper"
 BUNDLE_ID="com.localwhisper.app"
-# Update this to your GitHub username/repo for releases
-GITHUB_REPO="yourusername/local-whisper"
-APPCAST_URL="https://raw.githubusercontent.com/$GITHUB_REPO/main/appcast.xml"
+GITHUB_REPO="t2o2/local-whisper"
+# Use GitHub Pages for appcast (more reliable than raw.githubusercontent.com)
+APPCAST_URL="https://t2o2.github.io/local-whisper/appcast.xml"
 
 # Directories
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
