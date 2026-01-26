@@ -27,19 +27,10 @@ actor TranscriptionService {
         progressContinuation.yield(0.0)
         
         do {
-            // WhisperKit will download the model if not cached
-            let config = WhisperKitConfig(
-                model: modelName,
-                downloadBase: nil, // Use default cache location
-                useBackgroundDownloadSession: false,
-                prewarm: true,
-                load: true,
-                verbose: false
-            )
-            
             progressContinuation.yield(0.1)
             
-            whisperKit = try await WhisperKit(config)
+            // Initialize WhisperKit with model variant
+            whisperKit = try await WhisperKit(model: modelName)
             
             progressContinuation.yield(1.0)
             print("[TranscriptionService] Model \(modelName) loaded successfully")
@@ -62,8 +53,8 @@ actor TranscriptionService {
         }
         
         let options = DecodingOptions(
-            language: language,
             task: .transcribe,
+            language: language.isEmpty ? nil : language,
             usePrefillPrompt: false,
             skipSpecialTokens: true,
             withoutTimestamps: true
@@ -78,7 +69,7 @@ actor TranscriptionService {
         let text = results.compactMap { $0.text }.joined(separator: " ")
         
         // Clean up the text
-        return text.trimmingCharacters(in: .whitespacesAndNewlines)
+        return text.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
     }
     
     /// Unload the model to free memory

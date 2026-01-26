@@ -1,0 +1,4 @@
+module Hub {
+    header "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Hub.build/Hub-Swift.h"
+    requires objc
+}

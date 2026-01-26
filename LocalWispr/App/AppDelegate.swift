@@ -1,11 +1,12 @@
 import AppKit
 import SwiftUI
-import KeyboardShortcuts
 
+@MainActor
 class AppDelegate: NSObject, NSApplicationDelegate {
     private var statusItem: NSStatusItem!
     private var popover: NSPopover!
-    private let appState = AppState.shared
+    private var appState: AppState { AppState.shared }
+    private let hotkeyManager = HotkeyManager.shared
     
     func applicationDidFinishLaunching(_ notification: Notification) {
         // Hide dock icon - menu bar only app
@@ -38,21 +39,24 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     private func setupGlobalShortcut() {
-        // Register default shortcut if not set
-        if KeyboardShortcuts.getShortcut(for: .toggleRecording) == nil {
-            KeyboardShortcuts.setShortcut(.init(.space, modifiers: [.command, .shift]), for: .toggleRecording)
-        }
+        // Load saved hotkey or use default (Cmd+Shift+Space)
+        hotkeyManager.loadSavedHotkey()
         
-        KeyboardShortcuts.onKeyDown(for: .toggleRecording) { [weak self] in
+        hotkeyManager.onKeyDown = {
             Task { @MainActor in
-                await self?.appState.coordinator.handleHotkeyPressed()
+                await AppState.shared.coordinator.handleHotkeyPressed()
             }
         }
         
-        KeyboardShortcuts.onKeyUp(for: .toggleRecording) { [weak self] in
+        hotkeyManager.onKeyUp = {
             Task { @MainActor in
-                await self?.appState.coordinator.handleHotkeyReleased()
+                await AppState.shared.coordinator.handleHotkeyReleased()
             }
+        }
+        
+        // Start after a short delay to allow permissions to be checked
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
+            self?.hotkeyManager.start()
         }
     }
     
@@ -94,9 +98,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         button.image = NSImage(systemSymbolName: iconName, accessibilityDescription: "LocalWispr - \(state)")
     }
-}
-
-// MARK: - Keyboard Shortcuts Extension
-extension KeyboardShortcuts.Name {
-    static let toggleRecording = Self("toggleRecording")
+    
+    func applicationWillTerminate(_ notification: Notification) {
+        hotkeyManager.stop()
+    }
 }

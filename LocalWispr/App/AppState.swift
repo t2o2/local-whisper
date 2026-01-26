@@ -13,6 +13,17 @@ final class AppState: ObservableObject {
     @Published var modelLoadProgress: Double = 0.0
     @Published var isModelLoaded: Bool = false
     
+    // MARK: - Settings (stored in UserDefaults)
+    @Published var selectedModel: String {
+        didSet { UserDefaults.standard.set(selectedModel, forKey: "selectedModel") }
+    }
+    @Published var language: String {
+        didSet { UserDefaults.standard.set(language, forKey: "language") }
+    }
+    @Published var useClipboardFallback: Bool {
+        didSet { UserDefaults.standard.set(useClipboardFallback, forKey: "useClipboardFallback") }
+    }
+    
     // MARK: - Services
     let permissionsService: PermissionsService
     let audioService: AudioCaptureService
@@ -21,6 +32,11 @@ final class AppState: ObservableObject {
     let coordinator: TranscriptionCoordinator
     
     private init() {
+        // Load settings from UserDefaults
+        self.selectedModel = UserDefaults.standard.string(forKey: "selectedModel") ?? "large-v3"
+        self.language = UserDefaults.standard.string(forKey: "language") ?? "en"
+        self.useClipboardFallback = UserDefaults.standard.object(forKey: "useClipboardFallback") as? Bool ?? true
+        
         self.permissionsService = PermissionsService()
         self.audioService = AudioCaptureService()
         self.transcriptionService = TranscriptionService()
@@ -42,11 +58,4 @@ final class AppState: ObservableObject {
             }
         }
     }
-}
-
-// MARK: - Settings
-extension AppState {
-    @AppStorage("selectedModel") var selectedModel: String = "large-v3"
-    @AppStorage("language") var language: String = "en"
-    @AppStorage("useClipboardFallback") var useClipboardFallback: Bool = true
 }

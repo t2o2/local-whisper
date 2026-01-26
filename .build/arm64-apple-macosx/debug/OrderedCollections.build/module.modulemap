@@ -1,0 +1,4 @@
+module OrderedCollections {
+    header "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/OrderedCollections.build/OrderedCollections-Swift.h"
+    requires objc
+}

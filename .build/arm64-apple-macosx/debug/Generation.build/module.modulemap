@@ -1,0 +1,4 @@
+module Generation {
+    header "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Generation.build/Generation-Swift.h"
+    requires objc
+}

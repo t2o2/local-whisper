@@ -1,0 +1,89 @@
+{
+  "": {
+    "swift-dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/BasicContainers.build/master.swiftdeps"
+  },
+  "/Users/chuanbai/code/local-wispr/.build/checkouts/swift-collections/Sources/BasicContainers/RigidArray+Append.swift": {
+    "dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/BasicContainers.build/RigidArray+Append.d",
+    "object": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/BasicContainers.build/RigidArray+Append.swift.o",
+    "swiftmodule": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/BasicContainers.build/RigidArray+Append~partial.swiftmodule",
+    "swift-dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/BasicContainers.build/RigidArray+Append.swiftdeps"
+  },
+  "/Users/chuanbai/code/local-wispr/.build/checkouts/swift-collections/Sources/BasicContainers/RigidArray+Experimental.swift": {
+    "dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/BasicContainers.build/RigidArray+Experimental.d",
+    "object": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/BasicContainers.build/RigidArray+Experimental.swift.o",
+    "swiftmodule": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/BasicContainers.build/RigidArray+Experimental~partial.swiftmodule",
+    "swift-dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/BasicContainers.build/RigidArray+Experimental.swiftdeps"
+  },
+  "/Users/chuanbai/code/local-wispr/.build/checkouts/swift-collections/Sources/BasicContainers/RigidArray+Initializers.swift": {
+    "dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/BasicContainers.build/RigidArray+Initializers.d",
+    "object": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/BasicContainers.build/RigidArray+Initializers.swift.o",
+    "swiftmodule": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/BasicContainers.build/RigidArray+Initializers~partial.swiftmodule",
+    "swift-dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/BasicContainers.build/RigidArray+Initializers.swiftdeps"
+  },
+  "/Users/chuanbai/code/local-wispr/.build/checkouts/swift-collections/Sources/BasicContainers/RigidArray+Insertions.swift": {
+    "dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/BasicContainers.build/RigidArray+Insertions.d",
+    "object": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/BasicContainers.build/RigidArray+Insertions.swift.o",
+    "swiftmodule": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/BasicContainers.build/RigidArray+Insertions~partial.swiftmodule",
+    "swift-dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/BasicContainers.build/RigidArray+Insertions.swiftdeps"
+  },
+  "/Users/chuanbai/code/local-wispr/.build/checkouts/swift-collections/Sources/BasicContainers/RigidArray+Removals.swift": {
+    "dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/BasicContainers.build/RigidArray+Removals.d",
+    "object": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/BasicContainers.build/RigidArray+Removals.swift.o",
+    "swiftmodule": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/BasicContainers.build/RigidArray+Removals~partial.swiftmodule",
+    "swift-dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/BasicContainers.build/RigidArray+Removals.swiftdeps"
+  },
+  "/Users/chuanbai/code/local-wispr/.build/checkouts/swift-collections/Sources/BasicContainers/RigidArray+Replacements.swift": {
+    "dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/BasicContainers.build/RigidArray+Replacements.d",
+    "object": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/BasicContainers.build/RigidArray+Replacements.swift.o",
+    "swiftmodule": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/BasicContainers.build/RigidArray+Replacements~partial.swiftmodule",
+    "swift-dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/BasicContainers.build/RigidArray+Replacements.swiftdeps"
+  },
+  "/Users/chuanbai/code/local-wispr/.build/checkouts/swift-collections/Sources/BasicContainers/RigidArray.swift": {
+    "dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/BasicContainers.build/RigidArray.d",
+    "object": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/BasicContainers.build/RigidArray.swift.o",
+    "swiftmodule": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/BasicContainers.build/RigidArray~partial.swiftmodule",
+    "swift-dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/BasicContainers.build/RigidArray.swiftdeps"
+  },
+  "/Users/chuanbai/code/local-wispr/.build/checkouts/swift-collections/Sources/BasicContainers/UniqueArray+Append.swift": {
+    "dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/BasicContainers.build/UniqueArray+Append.d",
+    "object": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/BasicContainers.build/UniqueArray+Append.swift.o",
+    "swiftmodule": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/BasicContainers.build/UniqueArray+Append~partial.swiftmodule",
+    "swift-dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/BasicContainers.build/UniqueArray+Append.swiftdeps"
+  },
+  "/Users/chuanbai/code/local-wispr/.build/checkouts/swift-collections/Sources/BasicContainers/UniqueArray+Experimental.swift": {
+    "dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/BasicContainers.build/UniqueArray+Experimental.d",
+    "object": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/BasicContainers.build/UniqueArray+Experimental.swift.o",
+    "swiftmodule": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/BasicContainers.build/UniqueArray+Experimental~partial.swiftmodule",
+    "swift-dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/BasicContainers.build/UniqueArray+Experimental.swiftdeps"
+  },
+  "/Users/chuanbai/code/local-wispr/.build/checkouts/swift-collections/Sources/BasicContainers/UniqueArray+Initializers.swift": {
+    "dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/BasicContainers.build/UniqueArray+Initializers.d",
+    "object": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/BasicContainers.build/UniqueArray+Initializers.swift.o",
+    "swiftmodule": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/BasicContainers.build/UniqueArray+Initializers~partial.swiftmodule",
+    "swift-dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/BasicContainers.build/UniqueArray+Initializers.swiftdeps"
+  },
+  "/Users/chuanbai/code/local-wispr/.build/checkouts/swift-collections/Sources/BasicContainers/UniqueArray+Insertions.swift": {
+    "dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/BasicContainers.build/UniqueArray+Insertions.d",
+    "object": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/BasicContainers.build/UniqueArray+Insertions.swift.o",
+    "swiftmodule": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/BasicContainers.build/UniqueArray+Insertions~partial.swiftmodule",
+    "swift-dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/BasicContainers.build/UniqueArray+Insertions.swiftdeps"
+  },
+  "/Users/chuanbai/code/local-wispr/.build/checkouts/swift-collections/Sources/BasicContainers/UniqueArray+Removals.swift": {
+    "dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/BasicContainers.build/UniqueArray+Removals.d",
+    "object": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/BasicContainers.build/UniqueArray+Removals.swift.o",
+    "swiftmodule": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/BasicContainers.build/UniqueArray+Removals~partial.swiftmodule",
+    "swift-dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/BasicContainers.build/UniqueArray+Removals.swiftdeps"
+  },
+  "/Users/chuanbai/code/local-wispr/.build/checkouts/swift-collections/Sources/BasicContainers/UniqueArray+Replacements.swift": {
+    "dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/BasicContainers.build/UniqueArray+Replacements.d",
+    "object": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/BasicContainers.build/UniqueArray+Replacements.swift.o",
+    "swiftmodule": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/BasicContainers.build/UniqueArray+Replacements~partial.swiftmodule",
+    "swift-dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/BasicContainers.build/UniqueArray+Replacements.swiftdeps"
+  },
+  "/Users/chuanbai/code/local-wispr/.build/checkouts/swift-collections/Sources/BasicContainers/UniqueArray.swift": {
+    "dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/BasicContainers.build/UniqueArray.d",
+    "object": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/BasicContainers.build/UniqueArray.swift.o",
+    "swiftmodule": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/BasicContainers.build/UniqueArray~partial.swiftmodule",
+    "swift-dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/BasicContainers.build/UniqueArray.swiftdeps"
+  }
+}

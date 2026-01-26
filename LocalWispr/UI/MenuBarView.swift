@@ -1,5 +1,4 @@
 import SwiftUI
-import KeyboardShortcuts
 
 struct MenuBarView: View {
     @EnvironmentObject var appState: AppState
@@ -171,8 +170,12 @@ struct MenuBarView: View {
                 .foregroundColor(.secondary)
             
             HStack {
-                KeyboardShortcuts.Recorder(for: .toggleRecording)
-                    .padding(.vertical, 2)
+                Text(HotkeyManager.shared.shortcutString)
+                    .font(.system(.body, design: .monospaced))
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 4)
+                    .background(Color.secondary.opacity(0.2))
+                    .cornerRadius(4)
                 
                 Spacer()
                 
@@ -235,7 +238,8 @@ struct PermissionRow: View {
     }
 }
 
-#Preview {
-    MenuBarView()
-        .environmentObject(AppState.shared)
-}
+// Preview disabled for SPM builds
+// #Preview {
+//     MenuBarView()
+//         .environmentObject(AppState.shared)
+// }

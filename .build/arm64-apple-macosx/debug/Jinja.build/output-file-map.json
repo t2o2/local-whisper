@@ -1,0 +1,89 @@
+{
+  "": {
+    "swift-dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Jinja.build/master.swiftdeps"
+  },
+  "/Users/chuanbai/code/local-wispr/.build/checkouts/swift-jinja/Sources/Jinja/AST.swift": {
+    "dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Jinja.build/AST.d",
+    "object": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Jinja.build/AST.swift.o",
+    "swiftmodule": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Jinja.build/AST~partial.swiftmodule",
+    "swift-dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Jinja.build/AST.swiftdeps"
+  },
+  "/Users/chuanbai/code/local-wispr/.build/checkouts/swift-jinja/Sources/Jinja/Error.swift": {
+    "dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Jinja.build/Error.d",
+    "object": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Jinja.build/Error.swift.o",
+    "swiftmodule": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Jinja.build/Error~partial.swiftmodule",
+    "swift-dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Jinja.build/Error.swiftdeps"
+  },
+  "/Users/chuanbai/code/local-wispr/.build/checkouts/swift-jinja/Sources/Jinja/Filters.swift": {
+    "dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Jinja.build/Filters.d",
+    "object": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Jinja.build/Filters.swift.o",
+    "swiftmodule": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Jinja.build/Filters~partial.swiftmodule",
+    "swift-dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Jinja.build/Filters.swiftdeps"
+  },
+  "/Users/chuanbai/code/local-wispr/.build/checkouts/swift-jinja/Sources/Jinja/Globals.swift": {
+    "dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Jinja.build/Globals.d",
+    "object": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Jinja.build/Globals.swift.o",
+    "swiftmodule": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Jinja.build/Globals~partial.swiftmodule",
+    "swift-dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Jinja.build/Globals.swiftdeps"
+  },
+  "/Users/chuanbai/code/local-wispr/.build/checkouts/swift-jinja/Sources/Jinja/Interpreter.swift": {
+    "dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Jinja.build/Interpreter.d",
+    "object": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Jinja.build/Interpreter.swift.o",
+    "swiftmodule": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Jinja.build/Interpreter~partial.swiftmodule",
+    "swift-dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Jinja.build/Interpreter.swiftdeps"
+  },
+  "/Users/chuanbai/code/local-wispr/.build/checkouts/swift-jinja/Sources/Jinja/Lexer.swift": {
+    "dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Jinja.build/Lexer.d",
+    "object": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Jinja.build/Lexer.swift.o",
+    "swiftmodule": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Jinja.build/Lexer~partial.swiftmodule",
+    "swift-dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Jinja.build/Lexer.swiftdeps"
+  },
+  "/Users/chuanbai/code/local-wispr/.build/checkouts/swift-jinja/Sources/Jinja/Macro.swift": {
+    "dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Jinja.build/Macro.d",
+    "object": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Jinja.build/Macro.swift.o",
+    "swiftmodule": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Jinja.build/Macro~partial.swiftmodule",
+    "swift-dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Jinja.build/Macro.swiftdeps"
+  },
+  "/Users/chuanbai/code/local-wispr/.build/checkouts/swift-jinja/Sources/Jinja/Parser.swift": {
+    "dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Jinja.build/Parser.d",
+    "object": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Jinja.build/Parser.swift.o",
+    "swiftmodule": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Jinja.build/Parser~partial.swiftmodule",
+    "swift-dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Jinja.build/Parser.swiftdeps"
+  },
+  "/Users/chuanbai/code/local-wispr/.build/checkouts/swift-jinja/Sources/Jinja/PropertyMembers.swift": {
+    "dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Jinja.build/PropertyMembers.d",
+    "object": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Jinja.build/PropertyMembers.swift.o",
+    "swiftmodule": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Jinja.build/PropertyMembers~partial.swiftmodule",
+    "swift-dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Jinja.build/PropertyMembers.swiftdeps"
+  },
+  "/Users/chuanbai/code/local-wispr/.build/checkouts/swift-jinja/Sources/Jinja/Template.swift": {
+    "dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Jinja.build/Template.d",
+    "object": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Jinja.build/Template.swift.o",
+    "swiftmodule": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Jinja.build/Template~partial.swiftmodule",
+    "swift-dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Jinja.build/Template.swiftdeps"
+  },
+  "/Users/chuanbai/code/local-wispr/.build/checkouts/swift-jinja/Sources/Jinja/Tests.swift": {
+    "dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Jinja.build/Tests.d",
+    "object": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Jinja.build/Tests.swift.o",
+    "swiftmodule": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Jinja.build/Tests~partial.swiftmodule",
+    "swift-dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Jinja.build/Tests.swiftdeps"
+  },
+  "/Users/chuanbai/code/local-wispr/.build/checkouts/swift-jinja/Sources/Jinja/Token.swift": {
+    "dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Jinja.build/Token.d",
+    "object": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Jinja.build/Token.swift.o",
+    "swiftmodule": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Jinja.build/Token~partial.swiftmodule",
+    "swift-dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Jinja.build/Token.swiftdeps"
+  },
+  "/Users/chuanbai/code/local-wispr/.build/checkouts/swift-jinja/Sources/Jinja/Utilities.swift": {
+    "dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Jinja.build/Utilities.d",
+    "object": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Jinja.build/Utilities.swift.o",
+    "swiftmodule": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Jinja.build/Utilities~partial.swiftmodule",
+    "swift-dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Jinja.build/Utilities.swiftdeps"
+  },
+  "/Users/chuanbai/code/local-wispr/.build/checkouts/swift-jinja/Sources/Jinja/Value.swift": {
+    "dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Jinja.build/Value.d",
+    "object": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Jinja.build/Value.swift.o",
+    "swiftmodule": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Jinja.build/Value~partial.swiftmodule",
+    "swift-dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Jinja.build/Value.swiftdeps"
+  }
+}

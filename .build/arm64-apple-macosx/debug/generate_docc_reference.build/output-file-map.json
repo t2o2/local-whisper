@@ -1,0 +1,23 @@
+{
+  "": {
+    "swift-dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/generate_docc_reference.build/master.swiftdeps"
+  },
+  "/Users/chuanbai/code/local-wispr/.build/checkouts/swift-argument-parser/Tools/generate-docc-reference/Extensions/ArgumentParser+Markdown.swift": {
+    "dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/generate_docc_reference.build/ArgumentParser+Markdown.d",
+    "object": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/generate_docc_reference.build/ArgumentParser+Markdown.swift.o",
+    "swiftmodule": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/generate_docc_reference.build/ArgumentParser+Markdown~partial.swiftmodule",
+    "swift-dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/generate_docc_reference.build/ArgumentParser+Markdown.swiftdeps"
+  },
+  "/Users/chuanbai/code/local-wispr/.build/checkouts/swift-argument-parser/Tools/generate-docc-reference/Extensions/Process+SimpleAPI.swift": {
+    "dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/generate_docc_reference.build/Process+SimpleAPI.d",
+    "object": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/generate_docc_reference.build/Process+SimpleAPI.swift.o",
+    "swiftmodule": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/generate_docc_reference.build/Process+SimpleAPI~partial.swiftmodule",
+    "swift-dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/generate_docc_reference.build/Process+SimpleAPI.swiftdeps"
+  },
+  "/Users/chuanbai/code/local-wispr/.build/checkouts/swift-argument-parser/Tools/generate-docc-reference/GenerateDoccReference.swift": {
+    "dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/generate_docc_reference.build/GenerateDoccReference.d",
+    "object": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/generate_docc_reference.build/GenerateDoccReference.swift.o",
+    "swiftmodule": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/generate_docc_reference.build/GenerateDoccReference~partial.swiftmodule",
+    "swift-dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/generate_docc_reference.build/GenerateDoccReference.swiftdeps"
+  }
+}

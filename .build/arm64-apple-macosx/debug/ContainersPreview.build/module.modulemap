@@ -1,0 +1,4 @@
+module ContainersPreview {
+    header "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/ContainersPreview.build/ContainersPreview-Swift.h"
+    requires objc
+}

@@ -1,0 +1,13 @@
+/Users/chuanbai/code/local-wispr/LocalWispr/App/AppDelegate.swift
+/Users/chuanbai/code/local-wispr/LocalWispr/App/AppState.swift
+/Users/chuanbai/code/local-wispr/LocalWispr/App/LocalWisprApp.swift
+/Users/chuanbai/code/local-wispr/LocalWispr/Coordinators/TranscriptionCoordinator.swift
+/Users/chuanbai/code/local-wispr/LocalWispr/Models/AudioData.swift
+/Users/chuanbai/code/local-wispr/LocalWispr/Models/TranscriptionState.swift
+/Users/chuanbai/code/local-wispr/LocalWispr/Services/AudioCaptureService.swift
+/Users/chuanbai/code/local-wispr/LocalWispr/Services/HotkeyManager.swift
+/Users/chuanbai/code/local-wispr/LocalWispr/Services/PermissionsService.swift
+/Users/chuanbai/code/local-wispr/LocalWispr/Services/TextInjectionService.swift
+/Users/chuanbai/code/local-wispr/LocalWispr/Services/TranscriptionService.swift
+/Users/chuanbai/code/local-wispr/LocalWispr/UI/MenuBarView.swift
+/Users/chuanbai/code/local-wispr/LocalWispr/UI/SettingsView.swift

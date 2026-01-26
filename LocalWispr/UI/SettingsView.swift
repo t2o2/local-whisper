@@ -1,5 +1,4 @@
 import SwiftUI
-import KeyboardShortcuts
 
 struct SettingsView: View {
     @EnvironmentObject var appState: AppState
@@ -41,7 +40,19 @@ struct GeneralSettingsView: View {
     var body: some View {
         Form {
             Section("Keyboard Shortcut") {
-                KeyboardShortcuts.Recorder("Recording shortcut:", name: .toggleRecording)
+                HStack {
+                    Text("Recording shortcut:")
+                    Spacer()
+                    Text(HotkeyManager.shared.shortcutString)
+                        .font(.system(.body, design: .monospaced))
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 4)
+                        .background(Color.secondary.opacity(0.2))
+                        .cornerRadius(4)
+                }
+                Text("Default: ⌘⇧Space (hold to record)")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
             }
             
             Section("Behavior") {
@@ -237,7 +248,8 @@ struct AboutView: View {
     }
 }
 
-#Preview {
-    SettingsView()
-        .environmentObject(AppState.shared)
-}
+// Preview disabled for SPM builds
+// #Preview {
+//     SettingsView()
+//         .environmentObject(AppState.shared)
+// }

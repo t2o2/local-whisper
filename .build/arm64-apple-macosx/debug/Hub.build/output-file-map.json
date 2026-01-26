@@ -1,0 +1,47 @@
+{
+  "": {
+    "swift-dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Hub.build/master.swiftdeps"
+  },
+  "/Users/chuanbai/code/local-wispr/.build/checkouts/swift-transformers/Sources/Hub/BinaryDistinct.swift": {
+    "dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Hub.build/BinaryDistinct.d",
+    "object": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Hub.build/BinaryDistinct.swift.o",
+    "swiftmodule": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Hub.build/BinaryDistinct~partial.swiftmodule",
+    "swift-dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Hub.build/BinaryDistinct.swiftdeps"
+  },
+  "/Users/chuanbai/code/local-wispr/.build/checkouts/swift-transformers/Sources/Hub/Config.swift": {
+    "dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Hub.build/Config.d",
+    "object": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Hub.build/Config.swift.o",
+    "swiftmodule": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Hub.build/Config~partial.swiftmodule",
+    "swift-dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Hub.build/Config.swiftdeps"
+  },
+  "/Users/chuanbai/code/local-wispr/.build/checkouts/swift-transformers/Sources/Hub/Downloader.swift": {
+    "dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Hub.build/Downloader.d",
+    "object": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Hub.build/Downloader.swift.o",
+    "swiftmodule": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Hub.build/Downloader~partial.swiftmodule",
+    "swift-dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Hub.build/Downloader.swiftdeps"
+  },
+  "/Users/chuanbai/code/local-wispr/.build/checkouts/swift-transformers/Sources/Hub/Extensions/JSONSerialization+BOM.swift": {
+    "dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Hub.build/JSONSerialization+BOM.d",
+    "object": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Hub.build/JSONSerialization+BOM.swift.o",
+    "swiftmodule": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Hub.build/JSONSerialization+BOM~partial.swiftmodule",
+    "swift-dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Hub.build/JSONSerialization+BOM.swiftdeps"
+  },
+  "/Users/chuanbai/code/local-wispr/.build/checkouts/swift-transformers/Sources/Hub/Hub.swift": {
+    "dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Hub.build/Hub.d",
+    "object": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Hub.build/Hub.swift.o",
+    "swiftmodule": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Hub.build/Hub~partial.swiftmodule",
+    "swift-dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Hub.build/Hub.swiftdeps"
+  },
+  "/Users/chuanbai/code/local-wispr/.build/checkouts/swift-transformers/Sources/Hub/HubApi.swift": {
+    "dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Hub.build/HubApi.d",
+    "object": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Hub.build/HubApi.swift.o",
+    "swiftmodule": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Hub.build/HubApi~partial.swiftmodule",
+    "swift-dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Hub.build/HubApi.swiftdeps"
+  },
+  "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Hub.build/DerivedSources/resource_bundle_accessor.swift": {
+    "dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Hub.build/resource_bundle_accessor.d",
+    "object": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Hub.build/resource_bundle_accessor.swift.o",
+    "swiftmodule": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Hub.build/resource_bundle_accessor~partial.swiftmodule",
+    "swift-dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Hub.build/resource_bundle_accessor.swiftdeps"
+  }
+}

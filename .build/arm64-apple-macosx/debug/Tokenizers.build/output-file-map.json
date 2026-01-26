@@ -1,0 +1,83 @@
+{
+  "": {
+    "swift-dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Tokenizers.build/master.swiftdeps"
+  },
+  "/Users/chuanbai/code/local-wispr/.build/checkouts/swift-transformers/Sources/Tokenizers/BPETokenizer.swift": {
+    "dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Tokenizers.build/BPETokenizer.d",
+    "object": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Tokenizers.build/BPETokenizer.swift.o",
+    "swiftmodule": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Tokenizers.build/BPETokenizer~partial.swiftmodule",
+    "swift-dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Tokenizers.build/BPETokenizer.swiftdeps"
+  },
+  "/Users/chuanbai/code/local-wispr/.build/checkouts/swift-transformers/Sources/Tokenizers/BertTokenizer.swift": {
+    "dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Tokenizers.build/BertTokenizer.d",
+    "object": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Tokenizers.build/BertTokenizer.swift.o",
+    "swiftmodule": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Tokenizers.build/BertTokenizer~partial.swiftmodule",
+    "swift-dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Tokenizers.build/BertTokenizer.swiftdeps"
+  },
+  "/Users/chuanbai/code/local-wispr/.build/checkouts/swift-transformers/Sources/Tokenizers/ByteEncoder.swift": {
+    "dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Tokenizers.build/ByteEncoder.d",
+    "object": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Tokenizers.build/ByteEncoder.swift.o",
+    "swiftmodule": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Tokenizers.build/ByteEncoder~partial.swiftmodule",
+    "swift-dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Tokenizers.build/ByteEncoder.swiftdeps"
+  },
+  "/Users/chuanbai/code/local-wispr/.build/checkouts/swift-transformers/Sources/Tokenizers/Decoder.swift": {
+    "dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Tokenizers.build/Decoder.d",
+    "object": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Tokenizers.build/Decoder.swift.o",
+    "swiftmodule": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Tokenizers.build/Decoder~partial.swiftmodule",
+    "swift-dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Tokenizers.build/Decoder.swiftdeps"
+  },
+  "/Users/chuanbai/code/local-wispr/.build/checkouts/swift-transformers/Sources/Tokenizers/Normalizer.swift": {
+    "dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Tokenizers.build/Normalizer.d",
+    "object": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Tokenizers.build/Normalizer.swift.o",
+    "swiftmodule": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Tokenizers.build/Normalizer~partial.swiftmodule",
+    "swift-dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Tokenizers.build/Normalizer.swiftdeps"
+  },
+  "/Users/chuanbai/code/local-wispr/.build/checkouts/swift-transformers/Sources/Tokenizers/PostProcessor.swift": {
+    "dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Tokenizers.build/PostProcessor.d",
+    "object": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Tokenizers.build/PostProcessor.swift.o",
+    "swiftmodule": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Tokenizers.build/PostProcessor~partial.swiftmodule",
+    "swift-dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Tokenizers.build/PostProcessor.swiftdeps"
+  },
+  "/Users/chuanbai/code/local-wispr/.build/checkouts/swift-transformers/Sources/Tokenizers/PreTokenizer.swift": {
+    "dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Tokenizers.build/PreTokenizer.d",
+    "object": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Tokenizers.build/PreTokenizer.swift.o",
+    "swiftmodule": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Tokenizers.build/PreTokenizer~partial.swiftmodule",
+    "swift-dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Tokenizers.build/PreTokenizer.swiftdeps"
+  },
+  "/Users/chuanbai/code/local-wispr/.build/checkouts/swift-transformers/Sources/Tokenizers/String+PreTokenization.swift": {
+    "dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Tokenizers.build/String+PreTokenization.d",
+    "object": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Tokenizers.build/String+PreTokenization.swift.o",
+    "swiftmodule": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Tokenizers.build/String+PreTokenization~partial.swiftmodule",
+    "swift-dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Tokenizers.build/String+PreTokenization.swiftdeps"
+  },
+  "/Users/chuanbai/code/local-wispr/.build/checkouts/swift-transformers/Sources/Tokenizers/TokenLattice.swift": {
+    "dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Tokenizers.build/TokenLattice.d",
+    "object": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Tokenizers.build/TokenLattice.swift.o",
+    "swiftmodule": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Tokenizers.build/TokenLattice~partial.swiftmodule",
+    "swift-dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Tokenizers.build/TokenLattice.swiftdeps"
+  },
+  "/Users/chuanbai/code/local-wispr/.build/checkouts/swift-transformers/Sources/Tokenizers/Tokenizer.swift": {
+    "dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Tokenizers.build/Tokenizer.d",
+    "object": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Tokenizers.build/Tokenizer.swift.o",
+    "swiftmodule": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Tokenizers.build/Tokenizer~partial.swiftmodule",
+    "swift-dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Tokenizers.build/Tokenizer.swiftdeps"
+  },
+  "/Users/chuanbai/code/local-wispr/.build/checkouts/swift-transformers/Sources/Tokenizers/Trie.swift": {
+    "dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Tokenizers.build/Trie.d",
+    "object": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Tokenizers.build/Trie.swift.o",
+    "swiftmodule": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Tokenizers.build/Trie~partial.swiftmodule",
+    "swift-dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Tokenizers.build/Trie.swiftdeps"
+  },
+  "/Users/chuanbai/code/local-wispr/.build/checkouts/swift-transformers/Sources/Tokenizers/UnigramTokenizer.swift": {
+    "dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Tokenizers.build/UnigramTokenizer.d",
+    "object": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Tokenizers.build/UnigramTokenizer.swift.o",
+    "swiftmodule": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Tokenizers.build/UnigramTokenizer~partial.swiftmodule",
+    "swift-dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Tokenizers.build/UnigramTokenizer.swiftdeps"
+  },
+  "/Users/chuanbai/code/local-wispr/.build/checkouts/swift-transformers/Sources/Tokenizers/Utils.swift": {
+    "dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Tokenizers.build/Utils.d",
+    "object": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Tokenizers.build/Utils.swift.o",
+    "swiftmodule": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Tokenizers.build/Utils~partial.swiftmodule",
+    "swift-dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/Tokenizers.build/Utils.swiftdeps"
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "": {
+    "swift-dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/WhisperKitCLI.build/master.swiftdeps"
+  },
+  "/Users/chuanbai/code/local-wispr/.build/checkouts/WhisperKit/Sources/WhisperKitCLI/CLIUtils.swift": {
+    "dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/WhisperKitCLI.build/CLIUtils.d",
+    "object": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/WhisperKitCLI.build/CLIUtils.swift.o",
+    "swiftmodule": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/WhisperKitCLI.build/CLIUtils~partial.swiftmodule",
+    "swift-dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/WhisperKitCLI.build/CLIUtils.swiftdeps"
+  },
+  "/Users/chuanbai/code/local-wispr/.build/checkouts/WhisperKit/Sources/WhisperKitCLI/TranscribeCLI.swift": {
+    "dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/WhisperKitCLI.build/TranscribeCLI.d",
+    "object": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/WhisperKitCLI.build/TranscribeCLI.swift.o",
+    "swiftmodule": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/WhisperKitCLI.build/TranscribeCLI~partial.swiftmodule",
+    "swift-dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/WhisperKitCLI.build/TranscribeCLI.swiftdeps"
+  },
+  "/Users/chuanbai/code/local-wispr/.build/checkouts/WhisperKit/Sources/WhisperKitCLI/TranscribeCLIArguments.swift": {
+    "dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/WhisperKitCLI.build/TranscribeCLIArguments.d",
+    "object": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/WhisperKitCLI.build/TranscribeCLIArguments.swift.o",
+    "swiftmodule": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/WhisperKitCLI.build/TranscribeCLIArguments~partial.swiftmodule",
+    "swift-dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/WhisperKitCLI.build/TranscribeCLIArguments.swiftdeps"
+  },
+  "/Users/chuanbai/code/local-wispr/.build/checkouts/WhisperKit/Sources/WhisperKitCLI/TranscribeCLIUtils.swift": {
+    "dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/WhisperKitCLI.build/TranscribeCLIUtils.d",
+    "object": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/WhisperKitCLI.build/TranscribeCLIUtils.swift.o",
+    "swiftmodule": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/WhisperKitCLI.build/TranscribeCLIUtils~partial.swiftmodule",
+    "swift-dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/WhisperKitCLI.build/TranscribeCLIUtils.swiftdeps"
+  },
+  "/Users/chuanbai/code/local-wispr/.build/checkouts/WhisperKit/Sources/WhisperKitCLI/WhisperKitCLI.swift": {
+    "dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/WhisperKitCLI.build/WhisperKitCLI.d",
+    "object": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/WhisperKitCLI.build/WhisperKitCLI.swift.o",
+    "swiftmodule": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/WhisperKitCLI.build/WhisperKitCLI~partial.swiftmodule",
+    "swift-dependencies": "/Users/chuanbai/code/local-wispr/.build/arm64-apple-macosx/debug/WhisperKitCLI.build/WhisperKitCLI.swiftdeps"
+  }
+}
