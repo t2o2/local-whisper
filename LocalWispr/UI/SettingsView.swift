@@ -1,79 +1,47 @@
 import SwiftUI
+import Carbon.HIToolbox
 
 struct SettingsView: View {
     @EnvironmentObject var appState: AppState
+    @State private var selectedTab = 0
     
     var body: some View {
-        TabView {
-            GeneralSettingsView()
-                .tabItem {
-                    Label("General", systemImage: "gear")
+        NavigationSplitView {
+            List(selection: $selectedTab) {
+                Label("Model", systemImage: "cpu")
+                    .tag(0)
+                Label("Vocabulary", systemImage: "text.book.closed")
+                    .tag(1)
+                Label("Shortcuts", systemImage: "keyboard")
+                    .tag(2)
+                Label("Permissions", systemImage: "lock.shield")
+                    .tag(3)
+                Label("About", systemImage: "info.circle")
+                    .tag(4)
+            }
+            .listStyle(.sidebar)
+            .frame(minWidth: 150)
+        } detail: {
+            Group {
+                switch selectedTab {
+                case 0:
+                    ModelSettingsView()
+                case 1:
+                    VocabularySettingsView()
+                case 2:
+                    ShortcutSettingsView()
+                case 3:
+                    PermissionsSettingsView()
+                case 4:
+                    AboutView()
+                default:
+                    ModelSettingsView()
                 }
-                .environmentObject(appState)
-            
-            ModelSettingsView()
-                .tabItem {
-                    Label("Model", systemImage: "cpu")
-                }
-                .environmentObject(appState)
-            
-            PermissionsSettingsView()
-                .tabItem {
-                    Label("Permissions", systemImage: "lock.shield")
-                }
-                .environmentObject(appState)
-            
-            AboutView()
-                .tabItem {
-                    Label("About", systemImage: "info.circle")
-                }
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
-        .frame(width: 450, height: 300)
-    }
-}
-
-// MARK: - General Settings
-struct GeneralSettingsView: View {
-    @EnvironmentObject var appState: AppState
-    @AppStorage("launchAtLogin") private var launchAtLogin = false
-    
-    var body: some View {
-        Form {
-            Section("Keyboard Shortcut") {
-                HStack {
-                    Text("Recording shortcut:")
-                    Spacer()
-                    Text(HotkeyManager.shared.shortcutString)
-                        .font(.system(.body, design: .monospaced))
-                        .padding(.horizontal, 8)
-                        .padding(.vertical, 4)
-                        .background(Color.secondary.opacity(0.2))
-                        .cornerRadius(4)
-                }
-                Text("Default: ⌘⇧Space (hold to record)")
-                    .font(.caption)
-                    .foregroundColor(.secondary)
-            }
-            
-            Section("Behavior") {
-                Toggle("Launch at login", isOn: $launchAtLogin)
-                Toggle("Use clipboard fallback for text injection", isOn: $appState.useClipboardFallback)
-            }
-            
-            Section("Language") {
-                Picker("Transcription language:", selection: $appState.language) {
-                    Text("English").tag("en")
-                    Text("Auto-detect").tag("")
-                    Text("Spanish").tag("es")
-                    Text("French").tag("fr")
-                    Text("German").tag("de")
-                    Text("Chinese").tag("zh")
-                    Text("Japanese").tag("ja")
-                }
-            }
-        }
-        .formStyle(.grouped)
-        .padding()
+        .frame(width: 600, height: 400)
+        .environmentObject(appState)
     }
 }
 
@@ -81,64 +49,634 @@ struct GeneralSettingsView: View {
 struct ModelSettingsView: View {
     @EnvironmentObject var appState: AppState
     @State private var isReloading = false
+    @State private var selectedModelIndex = 0
     
-    private let models = [
-        ("tiny", "Tiny (~75MB) - Fastest, least accurate"),
-        ("base", "Base (~140MB) - Fast, basic accuracy"),
-        ("small", "Small (~460MB) - Balanced"),
-        ("medium", "Medium (~1.5GB) - Good accuracy"),
-        ("large-v3", "Large v3 (~3GB) - Best accuracy")
+    private let models: [(id: String, name: String, size: String, description: String)] = [
+        ("openai_whisper-tiny", "Tiny", "~75MB", "Fastest, basic accuracy"),
+        ("openai_whisper-base", "Base", "~140MB", "Fast, good for most uses"),
+        ("openai_whisper-small", "Small", "~460MB", "Balanced speed & accuracy"),
+        ("openai_whisper-medium", "Medium", "~1.5GB", "High accuracy"),
+        ("openai_whisper-large-v3", "Large v3", "~3GB", "Best accuracy"),
+        ("openai_whisper-large-v3_turbo", "Large v3 Turbo", "~1.6GB", "Fast & accurate")
     ]
     
     var body: some View {
-        Form {
-            Section("Whisper Model") {
-                Picker("Model:", selection: $appState.selectedModel) {
-                    ForEach(models, id: \.0) { model in
-                        Text(model.1).tag(model.0)
-                    }
+        ScrollView {
+            VStack(alignment: .leading, spacing: 24) {
+                // Header
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Whisper Model")
+                        .font(.title2)
+                        .fontWeight(.semibold)
+                    Text("Choose a model based on your needs. Larger models are more accurate but slower.")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
                 }
                 
-                HStack {
-                    if appState.isModelLoaded {
-                        Label("Model loaded", systemImage: "checkmark.circle.fill")
-                            .foregroundColor(.green)
-                    } else if appState.modelLoadProgress > 0 {
-                        ProgressView(value: appState.modelLoadProgress)
-                            .frame(width: 100)
-                        Text("Loading...")
-                    } else {
-                        Label("Model not loaded", systemImage: "xmark.circle")
-                            .foregroundColor(.secondary)
+                // Current Status
+                HStack(spacing: 12) {
+                    ZStack {
+                        Circle()
+                            .fill(appState.isModelLoaded ? Color.green.opacity(0.2) : Color.yellow.opacity(0.2))
+                            .frame(width: 40, height: 40)
+                        Image(systemName: appState.isModelLoaded ? "checkmark.circle.fill" : "arrow.down.circle.fill")
+                            .font(.title2)
+                            .foregroundStyle(appState.isModelLoaded ? .green : .yellow)
+                    }
+                    
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(appState.isModelLoaded ? "Model Ready" : "Loading Model...")
+                            .font(.headline)
+                        Text(appState.selectedModel)
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
                     }
                     
                     Spacer()
                     
-                    Button("Reload Model") {
-                        reloadModel()
+                    if !appState.isModelLoaded && appState.modelLoadProgress > 0 {
+                        ProgressView(value: appState.modelLoadProgress)
+                            .frame(width: 100)
                     }
-                    .disabled(isReloading)
                 }
+                .padding()
+                .background(Color(nsColor: .controlBackgroundColor))
+                .cornerRadius(12)
+                
+                // Model Selection
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("Select Model")
+                        .font(.headline)
+                    
+                    LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
+                        ForEach(models, id: \.id) { model in
+                            ModelCard(
+                                model: model,
+                                isSelected: appState.selectedModel == model.id,
+                                isLoading: isReloading && appState.selectedModel == model.id
+                            ) {
+                                selectModel(model.id)
+                            }
+                        }
+                    }
+                }
+                
+                // Language Selection
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("Language")
+                        .font(.headline)
+                    
+                    Picker("", selection: $appState.language) {
+                        Text("English").tag("en")
+                        Text("Auto-detect").tag("")
+                        Divider()
+                        Text("Chinese").tag("zh")
+                        Text("Spanish").tag("es")
+                        Text("French").tag("fr")
+                        Text("German").tag("de")
+                        Text("Japanese").tag("ja")
+                        Text("Korean").tag("ko")
+                    }
+                    .pickerStyle(.menu)
+                    .frame(width: 200)
+                }
+                
+                Spacer()
             }
-            
-            Section {
-                Text("Larger models are more accurate but slower and use more memory. The large-v3 model is recommended for M4 Macs with 24GB RAM.")
-                    .font(.caption)
-                    .foregroundColor(.secondary)
-            }
+            .padding(24)
         }
-        .formStyle(.grouped)
-        .padding()
     }
     
-    private func reloadModel() {
+    private func selectModel(_ modelId: String) {
+        guard modelId != appState.selectedModel || !appState.isModelLoaded else { return }
+        
+        appState.selectedModel = modelId
         isReloading = true
+        
         Task {
             await appState.transcriptionService.unloadModel()
-            await appState.transcriptionService.loadModel(modelName: appState.selectedModel)
             await MainActor.run {
+                appState.isModelLoaded = false
+            }
+            await appState.transcriptionService.loadModel(modelName: modelId)
+            let loaded = await appState.transcriptionService.isModelLoaded
+            await MainActor.run {
+                appState.isModelLoaded = loaded
                 isReloading = false
             }
+        }
+    }
+}
+
+// MARK: - Model Card
+struct ModelCard: View {
+    let model: (id: String, name: String, size: String, description: String)
+    let isSelected: Bool
+    let isLoading: Bool
+    let action: () -> Void
+    
+    var body: some View {
+        Button(action: action) {
+            VStack(alignment: .leading, spacing: 8) {
+                HStack {
+                    Text(model.name)
+                        .font(.headline)
+                    Spacer()
+                    if isLoading {
+                        ProgressView()
+                            .scaleEffect(0.7)
+                    } else if isSelected {
+                        Image(systemName: "checkmark.circle.fill")
+                            .foregroundStyle(.green)
+                    }
+                }
+                
+                Text(model.size)
+                    .font(.caption)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 2)
+                    .background(Color.secondary.opacity(0.2))
+                    .cornerRadius(4)
+                
+                Text(model.description)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .lineLimit(2)
+            }
+            .padding(12)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(isSelected ? Color.accentColor.opacity(0.1) : Color(nsColor: .controlBackgroundColor))
+            .cornerRadius(10)
+            .overlay(
+                RoundedRectangle(cornerRadius: 10)
+                    .stroke(isSelected ? Color.accentColor : Color.clear, lineWidth: 2)
+            )
+        }
+        .buttonStyle(.plain)
+    }
+}
+
+// MARK: - Vocabulary Settings
+struct VocabularySettingsView: View {
+    @EnvironmentObject var appState: AppState
+    @State private var newWord = ""
+    @State private var editingIndex: Int?
+    
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 24) {
+                // Header
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Custom Vocabulary")
+                        .font(.title2)
+                        .fontWeight(.semibold)
+                    Text("Add words or phrases to improve transcription accuracy for names, technical terms, or domain-specific vocabulary.")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                }
+                
+                // Add new word
+                HStack(spacing: 12) {
+                    TextField("Add a word or phrase...", text: $newWord)
+                        .textFieldStyle(.roundedBorder)
+                        .onSubmit {
+                            addWord()
+                        }
+                    
+                    Button(action: addWord) {
+                        Image(systemName: "plus.circle.fill")
+                            .font(.title2)
+                    }
+                    .buttonStyle(.plain)
+                    .foregroundColor(.accentColor)
+                    .disabled(newWord.trimmingCharacters(in: .whitespaces).isEmpty)
+                }
+                
+                // Word list
+                if appState.customVocabulary.isEmpty {
+                    VStack(spacing: 12) {
+                        Image(systemName: "text.book.closed")
+                            .font(.system(size: 40))
+                            .foregroundStyle(.secondary)
+                        Text("No custom words yet")
+                            .font(.headline)
+                            .foregroundStyle(.secondary)
+                        Text("Add words that you frequently use or that are often misheard.")
+                            .font(.caption)
+                            .foregroundStyle(.tertiary)
+                            .multilineTextAlignment(.center)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(40)
+                    .background(Color(nsColor: .controlBackgroundColor))
+                    .cornerRadius(12)
+                } else {
+                    VStack(spacing: 0) {
+                        ForEach(Array(appState.customVocabulary.enumerated()), id: \.offset) { index, word in
+                            HStack {
+                                Text(word)
+                                    .font(.body)
+                                
+                                Spacer()
+                                
+                                Button {
+                                    removeWord(at: index)
+                                } label: {
+                                    Image(systemName: "xmark.circle.fill")
+                                        .foregroundStyle(.secondary)
+                                }
+                                .buttonStyle(.plain)
+                            }
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 12)
+                            
+                            if index < appState.customVocabulary.count - 1 {
+                                Divider()
+                                    .padding(.leading, 16)
+                            }
+                        }
+                    }
+                    .background(Color(nsColor: .controlBackgroundColor))
+                    .cornerRadius(12)
+                }
+                
+                // Tips
+                VStack(alignment: .leading, spacing: 8) {
+                    Label("Tips", systemImage: "lightbulb")
+                        .font(.headline)
+                    
+                    VStack(alignment: .leading, spacing: 4) {
+                        tipRow("Add proper nouns, names, and brand names")
+                        tipRow("Include technical terms or jargon")
+                        tipRow("Add words that are often misheard or misspelled")
+                        tipRow("Use correct capitalization for names")
+                    }
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                }
+                .padding()
+                .background(Color.blue.opacity(0.1))
+                .cornerRadius(12)
+                
+                Spacer()
+            }
+            .padding(24)
+        }
+    }
+    
+    private func tipRow(_ text: String) -> some View {
+        HStack(alignment: .top, spacing: 8) {
+            Text("•")
+            Text(text)
+        }
+    }
+    
+    private func addWord() {
+        let trimmed = newWord.trimmingCharacters(in: .whitespaces)
+        guard !trimmed.isEmpty else { return }
+        guard !appState.customVocabulary.contains(trimmed) else {
+            newWord = ""
+            return
+        }
+        
+        withAnimation {
+            appState.customVocabulary.append(trimmed)
+        }
+        newWord = ""
+    }
+    
+    private func removeWord(at index: Int) {
+        _ = withAnimation {
+            appState.customVocabulary.remove(at: index)
+        }
+    }
+}
+
+// MARK: - Shortcut Settings
+struct ShortcutSettingsView: View {
+    @EnvironmentObject var appState: AppState
+    @State private var isRecording = false
+    @State private var currentShortcut = HotkeyManager.shared.shortcutString
+    
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 24) {
+                // Header
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Keyboard Shortcuts")
+                        .font(.title2)
+                        .fontWeight(.semibold)
+                    Text("Configure how you trigger voice transcription.")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                }
+                
+                // Current shortcut
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("Recording Shortcut")
+                        .font(.headline)
+                    
+                    HStack(spacing: 16) {
+                        // Shortcut display / recorder
+                        ShortcutRecorderView(
+                            isRecording: $isRecording,
+                            currentShortcut: $currentShortcut
+                        )
+                        
+                        Spacer()
+                        
+                        if !isRecording {
+                            Button("Change") {
+                                isRecording = true
+                            }
+                            .buttonStyle(.bordered)
+                        }
+                    }
+                    .padding()
+                    .background(Color(nsColor: .controlBackgroundColor))
+                    .cornerRadius(12)
+                    
+                    Text("Hold to record, release to transcribe")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+                
+                // Preset shortcuts
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("Quick Presets")
+                        .font(.headline)
+                    
+                    HStack(spacing: 12) {
+                        PresetShortcutButton(
+                            label: "⌃⇧Space",
+                            keyCode: UInt16(kVK_Space),
+                            modifiers: [.maskControl, .maskShift],
+                            currentShortcut: $currentShortcut
+                        )
+                        
+                        PresetShortcutButton(
+                            label: "⌥Space",
+                            keyCode: UInt16(kVK_Space),
+                            modifiers: [.maskAlternate],
+                            currentShortcut: $currentShortcut
+                        )
+                        
+                        PresetShortcutButton(
+                            label: "⌘⇧V",
+                            keyCode: UInt16(kVK_ANSI_V),
+                            modifiers: [.maskCommand, .maskShift],
+                            currentShortcut: $currentShortcut
+                        )
+                        
+                        PresetShortcutButton(
+                            label: "F5",
+                            keyCode: UInt16(kVK_F5),
+                            modifiers: [],
+                            currentShortcut: $currentShortcut
+                        )
+                    }
+                }
+                
+                // Usage instructions
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("How to Use")
+                        .font(.headline)
+                    
+                    VStack(alignment: .leading, spacing: 16) {
+                        InstructionRow(number: 1, text: "Press and hold the shortcut keys")
+                        InstructionRow(number: 2, text: "Speak clearly into your microphone")
+                        InstructionRow(number: 3, text: "Release the keys to transcribe")
+                        InstructionRow(number: 4, text: "Text is automatically pasted")
+                    }
+                    .padding()
+                    .background(Color(nsColor: .controlBackgroundColor))
+                    .cornerRadius(12)
+                }
+                
+                Spacer()
+            }
+            .padding(24)
+        }
+    }
+}
+
+// MARK: - Shortcut Recorder View
+struct ShortcutRecorderView: View {
+    @Binding var isRecording: Bool
+    @Binding var currentShortcut: String
+    
+    var body: some View {
+        ZStack {
+            if isRecording {
+                ShortcutRecorderField(
+                    isRecording: $isRecording,
+                    currentShortcut: $currentShortcut
+                )
+            } else {
+                // Display current shortcut
+                HStack(spacing: 4) {
+                    ForEach(parseShortcut(currentShortcut), id: \.self) { part in
+                        if part == "+" {
+                            Text("+")
+                                .foregroundStyle(.secondary)
+                        } else {
+                            KeyCap(part)
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    private func parseShortcut(_ shortcut: String) -> [String] {
+        var parts: [String] = []
+        var current = shortcut
+        
+        let modifiers = ["⌃", "⌥", "⇧", "⌘"]
+        for mod in modifiers {
+            if current.hasPrefix(mod) {
+                parts.append(mod)
+                parts.append("+")
+                current = String(current.dropFirst())
+            }
+        }
+        
+        if !current.isEmpty {
+            parts.append(current)
+        }
+        
+        // Remove trailing +
+        if parts.last == "+" {
+            parts.removeLast()
+        }
+        
+        return parts
+    }
+}
+
+// MARK: - Shortcut Recorder Field (NSView wrapper)
+struct ShortcutRecorderField: NSViewRepresentable {
+    @Binding var isRecording: Bool
+    @Binding var currentShortcut: String
+    
+    func makeNSView(context: Context) -> ShortcutRecorderNSView {
+        let view = ShortcutRecorderNSView()
+        view.onShortcutRecorded = { keyCode, modifiers in
+            HotkeyManager.shared.setHotkey(keyCode: keyCode, modifiers: modifiers)
+            currentShortcut = HotkeyManager.shared.shortcutString
+            isRecording = false
+        }
+        view.onCancel = {
+            isRecording = false
+        }
+        return view
+    }
+    
+    func updateNSView(_ nsView: ShortcutRecorderNSView, context: Context) {
+        if isRecording {
+            nsView.window?.makeFirstResponder(nsView)
+        }
+    }
+}
+
+class ShortcutRecorderNSView: NSView {
+    var onShortcutRecorded: ((UInt16, CGEventFlags) -> Void)?
+    var onCancel: (() -> Void)?
+    
+    override var acceptsFirstResponder: Bool { true }
+    
+    override func draw(_ dirtyRect: NSRect) {
+        super.draw(dirtyRect)
+        
+        // Draw recording indicator
+        NSColor.controlBackgroundColor.setFill()
+        let path = NSBezierPath(roundedRect: bounds, xRadius: 8, yRadius: 8)
+        path.fill()
+        
+        NSColor.systemBlue.setStroke()
+        path.lineWidth = 2
+        path.stroke()
+        
+        // Draw text
+        let text = "Press shortcut..."
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: NSFont.systemFont(ofSize: 13, weight: .medium),
+            .foregroundColor: NSColor.secondaryLabelColor
+        ]
+        let size = text.size(withAttributes: attributes)
+        let point = NSPoint(
+            x: (bounds.width - size.width) / 2,
+            y: (bounds.height - size.height) / 2
+        )
+        text.draw(at: point, withAttributes: attributes)
+    }
+    
+    override var intrinsicContentSize: NSSize {
+        NSSize(width: 150, height: 32)
+    }
+    
+    override func keyDown(with event: NSEvent) {
+        // Escape to cancel
+        if event.keyCode == UInt16(kVK_Escape) {
+            onCancel?()
+            return
+        }
+        
+        // Get modifiers
+        var modifiers: CGEventFlags = []
+        if event.modifierFlags.contains(.control) {
+            modifiers.insert(.maskControl)
+        }
+        if event.modifierFlags.contains(.option) {
+            modifiers.insert(.maskAlternate)
+        }
+        if event.modifierFlags.contains(.shift) {
+            modifiers.insert(.maskShift)
+        }
+        if event.modifierFlags.contains(.command) {
+            modifiers.insert(.maskCommand)
+        }
+        
+        // Require at least one modifier (unless it's a function key)
+        let isFunctionKey = (event.keyCode >= UInt16(kVK_F1) && event.keyCode <= UInt16(kVK_F20))
+        
+        if modifiers.isEmpty && !isFunctionKey {
+            // Flash to indicate need modifier
+            NSSound.beep()
+            return
+        }
+        
+        onShortcutRecorded?(event.keyCode, modifiers)
+    }
+}
+
+// MARK: - Preset Shortcut Button
+struct PresetShortcutButton: View {
+    let label: String
+    let keyCode: UInt16
+    let modifiers: CGEventFlags
+    @Binding var currentShortcut: String
+    
+    var isSelected: Bool {
+        HotkeyManager.shared.keyCode == keyCode &&
+        HotkeyManager.shared.modifiers == modifiers
+    }
+    
+    var body: some View {
+        Button {
+            HotkeyManager.shared.setHotkey(keyCode: keyCode, modifiers: modifiers)
+            currentShortcut = HotkeyManager.shared.shortcutString
+        } label: {
+            Text(label)
+                .font(.system(.caption, design: .rounded, weight: .medium))
+                .padding(.horizontal, 12)
+                .padding(.vertical, 8)
+                .background(isSelected ? Color.accentColor : Color(nsColor: .controlBackgroundColor))
+                .foregroundStyle(isSelected ? .white : .primary)
+                .cornerRadius(8)
+        }
+        .buttonStyle(.plain)
+    }
+}
+
+struct KeyCap: View {
+    let key: String
+    
+    init(_ key: String) {
+        self.key = key
+    }
+    
+    var body: some View {
+        Text(key)
+            .font(.system(.body, design: .rounded, weight: .medium))
+            .padding(.horizontal, 10)
+            .padding(.vertical, 6)
+            .background(Color(nsColor: .controlBackgroundColor))
+            .cornerRadius(6)
+            .overlay(
+                RoundedRectangle(cornerRadius: 6)
+                    .stroke(Color.secondary.opacity(0.3), lineWidth: 1)
+            )
+            .shadow(color: .black.opacity(0.1), radius: 1, y: 1)
+    }
+}
+
+struct InstructionRow: View {
+    let number: Int
+    let text: String
+    
+    var body: some View {
+        HStack(spacing: 12) {
+            Text("\(number)")
+                .font(.caption)
+                .fontWeight(.bold)
+                .frame(width: 24, height: 24)
+                .background(Color.accentColor)
+                .foregroundStyle(.white)
+                .clipShape(Circle())
+            
+            Text(text)
+                .font(.body)
         }
     }
 }
@@ -148,108 +686,169 @@ struct PermissionsSettingsView: View {
     @EnvironmentObject var appState: AppState
     
     var body: some View {
-        Form {
-            Section("Required Permissions") {
-                HStack {
-                    Image(systemName: "mic.fill")
-                        .frame(width: 24)
-                    VStack(alignment: .leading) {
-                        Text("Microphone")
-                            .font(.headline)
-                        Text("Required to capture audio for transcription")
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                    }
-                    Spacer()
-                    
-                    if appState.permissionsService.microphoneGranted {
-                        Image(systemName: "checkmark.circle.fill")
-                            .foregroundColor(.green)
-                    } else {
-                        Button("Open Settings") {
-                            appState.permissionsService.openMicrophoneSettings()
-                        }
-                    }
+        ScrollView {
+            VStack(alignment: .leading, spacing: 24) {
+                // Header
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Permissions")
+                        .font(.title2)
+                        .fontWeight(.semibold)
+                    Text("LocalWispr needs these permissions to work properly.")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
                 }
                 
-                HStack {
-                    Image(systemName: "accessibility")
-                        .frame(width: 24)
-                    VStack(alignment: .leading) {
-                        Text("Accessibility")
-                            .font(.headline)
-                        Text("Required for global shortcuts and text injection")
-                            .font(.caption)
-                            .foregroundColor(.secondary)
+                // Permission rows
+                VStack(spacing: 0) {
+                    PermissionRow(
+                        icon: "mic.fill",
+                        iconColor: .red,
+                        title: "Microphone",
+                        description: "Required to capture your voice for transcription",
+                        isGranted: appState.permissionsService.microphoneGranted
+                    ) {
+                        appState.permissionsService.openMicrophoneSettings()
                     }
-                    Spacer()
                     
-                    if appState.permissionsService.accessibilityGranted {
-                        Image(systemName: "checkmark.circle.fill")
-                            .foregroundColor(.green)
-                    } else {
-                        Button("Request") {
-                            appState.permissionsService.requestAccessibilityPermission()
-                        }
+                    Divider()
+                        .padding(.leading, 56)
+                    
+                    PermissionRow(
+                        icon: "accessibility",
+                        iconColor: .blue,
+                        title: "Accessibility",
+                        description: "Required for global shortcuts and auto-paste",
+                        isGranted: appState.permissionsService.accessibilityGranted
+                    ) {
+                        appState.permissionsService.requestAccessibilityPermission()
                     }
                 }
-            }
-            
-            Section {
-                Button("Refresh Permissions Status") {
+                .background(Color(nsColor: .controlBackgroundColor))
+                .cornerRadius(12)
+                
+                // Refresh button
+                Button {
                     Task {
                         await appState.permissionsService.checkAllPermissions()
                     }
+                } label: {
+                    Label("Refresh Status", systemImage: "arrow.clockwise")
                 }
+                .buttonStyle(.bordered)
+                
+                Spacer()
+            }
+            .padding(24)
+        }
+    }
+}
+
+struct PermissionRow: View {
+    let icon: String
+    let iconColor: Color
+    let title: String
+    let description: String
+    let isGranted: Bool
+    let action: () -> Void
+    
+    var body: some View {
+        HStack(spacing: 12) {
+            ZStack {
+                RoundedRectangle(cornerRadius: 8)
+                    .fill(iconColor.opacity(0.2))
+                    .frame(width: 36, height: 36)
+                Image(systemName: icon)
+                    .foregroundStyle(iconColor)
+            }
+            
+            VStack(alignment: .leading, spacing: 2) {
+                Text(title)
+                    .font(.headline)
+                Text(description)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+            
+            Spacer()
+            
+            if isGranted {
+                Label("Granted", systemImage: "checkmark.circle.fill")
+                    .font(.caption)
+                    .foregroundStyle(.green)
+            } else {
+                Button("Grant", action: action)
+                    .buttonStyle(.borderedProminent)
+                    .controlSize(.small)
             }
         }
-        .formStyle(.grouped)
-        .padding()
+        .padding(16)
     }
 }
 
 // MARK: - About View
 struct AboutView: View {
     var body: some View {
-        VStack(spacing: 16) {
-            Image(systemName: "waveform")
-                .font(.system(size: 64))
-                .foregroundColor(.accentColor)
+        VStack(spacing: 24) {
+            Spacer()
             
-            Text("LocalWispr")
-                .font(.title)
-                .fontWeight(.bold)
-            
-            Text("Version 1.0.0")
-                .font(.caption)
-                .foregroundColor(.secondary)
-            
-            Text("Local voice-to-text transcription powered by WhisperKit")
-                .font(.body)
-                .multilineTextAlignment(.center)
-                .foregroundColor(.secondary)
-            
-            Divider()
-            
-            VStack(spacing: 4) {
-                Text("100% Offline • No Data Sent")
-                    .font(.caption)
-                    .fontWeight(.medium)
+            // App icon
+            ZStack {
+                Circle()
+                    .fill(LinearGradient(
+                        colors: [.blue, .purple],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    ))
+                    .frame(width: 100, height: 100)
                 
-                Text("Your audio never leaves your device")
-                    .font(.caption2)
-                    .foregroundColor(.secondary)
+                Image(systemName: "waveform")
+                    .font(.system(size: 44))
+                    .foregroundStyle(.white)
             }
             
+            // App name and version
+            VStack(spacing: 4) {
+                Text("LocalWispr")
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                
+                Text("Version 1.0.0")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+            
+            // Description
+            Text("Local voice-to-text transcription\npowered by WhisperKit")
+                .font(.body)
+                .multilineTextAlignment(.center)
+                .foregroundStyle(.secondary)
+            
+            // Privacy badge
+            HStack(spacing: 8) {
+                Image(systemName: "lock.shield.fill")
+                    .foregroundStyle(.green)
+                Text("100% Offline • Your audio never leaves your device")
+                    .font(.caption)
+            }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 10)
+            .background(Color.green.opacity(0.1))
+            .cornerRadius(20)
+            
             Spacer()
+            
+            // Credits
+            VStack(spacing: 4) {
+                Text("Built with WhisperKit by Argmax")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                
+                Text("© 2024 LocalWispr")
+                    .font(.caption2)
+                    .foregroundStyle(.tertiary)
+            }
+            .padding(.bottom, 16)
         }
-        .padding()
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
-
-// Preview disabled for SPM builds
-// #Preview {
-//     SettingsView()
-//         .environmentObject(AppState.shared)
-// }

@@ -1,104 +1,65 @@
 import Foundation
 import AppKit
 import Carbon.HIToolbox
+import os.log
+
+private let injectionLogger = Logger(subsystem: "com.localwispr.app", category: "TextInjection")
 
 /// Injects transcribed text into the currently focused application
 actor TextInjectionService {
     
-    /// Inject text using the best available method
+    /// Inject text - copies to clipboard and auto-pastes
     func injectText(_ text: String, useClipboardFallback: Bool = true) async throws {
-        // First, try AXUIElement-based injection
-        if try await injectViaAccessibility(text) {
+        injectionLogger.info("Injecting text: \(text.prefix(50))...")
+        
+        // Step 1: Copy to clipboard
+        copyToClipboard(text)
+        injectionLogger.info("Text copied to clipboard")
+        
+        // Step 2: Small delay to ensure clipboard is ready
+        try await Task.sleep(nanoseconds: 100_000_000) // 100ms
+        
+        // Step 3: Simulate Cmd+V to paste
+        simulatePaste()
+        injectionLogger.info("Paste command sent")
+    }
+    
+    /// Copy text to clipboard
+    func copyToClipboard(_ text: String) {
+        let pasteboard = NSPasteboard.general
+        pasteboard.clearContents()
+        pasteboard.setString(text, forType: .string)
+    }
+    
+    /// Simulate Cmd+V keypress using CGEvent
+    private func simulatePaste() {
+        let source = CGEventSource(stateID: .combinedSessionState)
+        
+        // V key = keycode 9
+        let vKeyCode: CGKeyCode = 9
+        
+        // Create key down event
+        guard let keyDown = CGEvent(keyboardEventSource: source, virtualKey: vKeyCode, keyDown: true) else {
+            injectionLogger.error("Failed to create keyDown event")
             return
         }
         
-        // Fall back to clipboard method if enabled
-        if useClipboardFallback {
-            try await injectViaClipboard(text)
-        } else {
-            throw TextInjectionError.injectionFailed
-        }
-    }
-    
-    /// Inject text using Accessibility API (preferred method)
-    private func injectViaAccessibility(_ text: String) async throws -> Bool {
-        // Get the system-wide accessibility element
-        let systemWide = AXUIElementCreateSystemWide()
-        
-        // Get the focused element
-        var focusedElement: AnyObject?
-        let focusResult = AXUIElementCopyAttributeValue(
-            systemWide,
-            kAXFocusedUIElementAttribute as CFString,
-            &focusedElement
-        )
-        
-        guard focusResult == .success,
-              let element = focusedElement else {
-            return false
+        // Create key up event
+        guard let keyUp = CGEvent(keyboardEventSource: source, virtualKey: vKeyCode, keyDown: false) else {
+            injectionLogger.error("Failed to create keyUp event")
+            return
         }
         
-        // Try to set the value directly
-        let setResult = AXUIElementSetAttributeValue(
-            element as! AXUIElement,
-            kAXValueAttribute as CFString,
-            text as CFTypeRef
-        )
+        // Set Command modifier for both events
+        keyDown.flags = .maskCommand
+        keyUp.flags = .maskCommand
         
-        if setResult == .success {
-            return true
-        }
+        // Post events to HID tap (works with accessibility permission)
+        keyDown.post(tap: .cghidEventTap)
+        usleep(5000) // 5ms delay between key down and up
+        keyUp.post(tap: .cghidEventTap)
         
-        // Try inserting at selection (for text views that don't support setValue)
-        let insertResult = AXUIElementSetAttributeValue(
-            element as! AXUIElement,
-            kAXSelectedTextAttribute as CFString,
-            text as CFTypeRef
-        )
-        
-        return insertResult == .success
-    }
-    
-    /// Inject text via clipboard and Cmd+V (fallback method)
-    private func injectViaClipboard(_ text: String) async throws {
-        let pasteboard = NSPasteboard.general
-        
-        // Save current clipboard contents
-        let previousContents = pasteboard.string(forType: .string)
-        
-        // Set our text
-        pasteboard.clearContents()
-        pasteboard.setString(text, forType: .string)
-        
-        // Small delay to ensure clipboard is updated
-        try await Task.sleep(nanoseconds: 50_000_000) // 50ms
-        
-        // Simulate Cmd+V
-        simulatePaste()
-        
-        // Wait for paste to complete
-        try await Task.sleep(nanoseconds: 100_000_000) // 100ms
-        
-        // Restore previous clipboard contents
-        if let previous = previousContents {
-            pasteboard.clearContents()
-            pasteboard.setString(previous, forType: .string)
-        }
-    }
-    
-    /// Simulate Cmd+V keypress
-    private func simulatePaste() {
-        let source = CGEventSource(stateID: .hidSystemState)
-        
-        // Key down for V with Command modifier
-        let keyDown = CGEvent(keyboardEventSource: source, virtualKey: CGKeyCode(kVK_ANSI_V), keyDown: true)
-        keyDown?.flags = .maskCommand
-        keyDown?.post(tap: .cghidEventTap)
-        
-        // Key up for V
-        let keyUp = CGEvent(keyboardEventSource: source, virtualKey: CGKeyCode(kVK_ANSI_V), keyDown: false)
-        keyUp?.flags = .maskCommand
-        keyUp?.post(tap: .cghidEventTap)
+        injectionLogger.info("Cmd+V keystroke posted")
     }
 }
 

@@ -1,14 +1,17 @@
 import Foundation
 import AppKit
 import Carbon.HIToolbox
+import os.log
+
+private let hotkeyLogger = Logger(subsystem: "com.localwispr.app", category: "HotkeyManager")
 
 /// Manages global keyboard shortcuts using CGEvent API
 final class HotkeyManager {
     static let shared = HotkeyManager()
     
-    // Default shortcut: Cmd+Shift+Space
+    // Default shortcut: Ctrl+Shift+Space
     private(set) var keyCode: UInt16 = UInt16(kVK_Space)
-    private(set) var modifiers: CGEventFlags = [.maskCommand, .maskShift]
+    private(set) var modifiers: CGEventFlags = [.maskControl, .maskShift]
     
     fileprivate var eventTap: CFMachPort?
     private var runLoopSource: CFRunLoopSource?
@@ -79,13 +82,15 @@ final class HotkeyManager {
         let currentFlags = event.flags
         
         // Check if our hotkey modifiers are pressed
-        let hasRequiredModifiers = currentFlags.contains(.maskCommand) && currentFlags.contains(.maskShift)
+        let hasRequiredModifiers = checkModifiers(currentFlags)
         
         switch type {
         case .keyDown:
             if currentKeyCode == keyCode && hasRequiredModifiers && !isKeyDown {
+                hotkeyLogger.info("Hotkey DOWN detected!")
                 isKeyDown = true
                 DispatchQueue.main.async { [weak self] in
+                    hotkeyLogger.info("Calling onKeyDown callback")
                     self?.onKeyDown?()
                 }
                 return true // Consume the event
@@ -93,8 +98,10 @@ final class HotkeyManager {
             
         case .keyUp:
             if currentKeyCode == keyCode && isKeyDown {
+                hotkeyLogger.info("Hotkey UP detected!")
                 isKeyDown = false
                 DispatchQueue.main.async { [weak self] in
+                    hotkeyLogger.info("Calling onKeyUp callback")
                     self?.onKeyUp?()
                 }
                 return true // Consume the event
@@ -116,6 +123,24 @@ final class HotkeyManager {
         return false // Don't consume the event
     }
     
+    /// Check if current flags match required modifiers
+    private func checkModifiers(_ flags: CGEventFlags) -> Bool {
+        // Check that all required modifiers are present
+        let hasControl = !modifiers.contains(.maskControl) || flags.contains(.maskControl)
+        let hasShift = !modifiers.contains(.maskShift) || flags.contains(.maskShift)
+        let hasOption = !modifiers.contains(.maskAlternate) || flags.contains(.maskAlternate)
+        let hasCommand = !modifiers.contains(.maskCommand) || flags.contains(.maskCommand)
+        
+        // Also check we don't have extra modifiers we don't want
+        let controlMatch = modifiers.contains(.maskControl) == flags.contains(.maskControl)
+        let shiftMatch = modifiers.contains(.maskShift) == flags.contains(.maskShift)
+        let optionMatch = modifiers.contains(.maskAlternate) == flags.contains(.maskAlternate)
+        let commandMatch = modifiers.contains(.maskCommand) == flags.contains(.maskCommand)
+        
+        return hasControl && hasShift && hasOption && hasCommand &&
+               controlMatch && shiftMatch && optionMatch && commandMatch
+    }
+    
     /// Update the hotkey
     func setHotkey(keyCode: UInt16, modifiers: CGEventFlags) {
         self.keyCode = keyCode
@@ -124,6 +149,8 @@ final class HotkeyManager {
         // Save to UserDefaults
         UserDefaults.standard.set(Int(keyCode), forKey: "hotkeyKeyCode")
         UserDefaults.standard.set(modifiers.rawValue, forKey: "hotkeyModifiers")
+        
+        hotkeyLogger.info("Hotkey updated to: \(self.shortcutString)")
     }
     
     /// Load saved hotkey from UserDefaults

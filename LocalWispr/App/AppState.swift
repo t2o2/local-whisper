@@ -23,6 +23,15 @@ final class AppState: ObservableObject {
     @Published var useClipboardFallback: Bool {
         didSet { UserDefaults.standard.set(useClipboardFallback, forKey: "useClipboardFallback") }
     }
+    @Published var customVocabulary: [String] {
+        didSet { UserDefaults.standard.set(customVocabulary, forKey: "customVocabulary") }
+    }
+    
+    /// Returns custom vocabulary as a prompt string for the transcription model
+    var vocabularyPrompt: String? {
+        guard !customVocabulary.isEmpty else { return nil }
+        return customVocabulary.joined(separator: ", ")
+    }
     
     // MARK: - Services
     let permissionsService: PermissionsService
@@ -33,9 +42,10 @@ final class AppState: ObservableObject {
     
     private init() {
         // Load settings from UserDefaults
-        self.selectedModel = UserDefaults.standard.string(forKey: "selectedModel") ?? "large-v3"
+        self.selectedModel = UserDefaults.standard.string(forKey: "selectedModel") ?? "openai_whisper-base"
         self.language = UserDefaults.standard.string(forKey: "language") ?? "en"
         self.useClipboardFallback = UserDefaults.standard.object(forKey: "useClipboardFallback") as? Bool ?? true
+        self.customVocabulary = UserDefaults.standard.stringArray(forKey: "customVocabulary") ?? []
         
         self.permissionsService = PermissionsService()
         self.audioService = AudioCaptureService()

@@ -1,5 +1,8 @@
 import Foundation
 import SwiftUI
+import os.log
+
+private let logger = Logger(subsystem: "com.localwispr.app", category: "Coordinator")
 
 /// Orchestrates the hotkey → record → transcribe → inject workflow
 @MainActor
@@ -25,16 +28,26 @@ final class TranscriptionCoordinator: ObservableObject {
     
     /// Called when hotkey is pressed - start recording
     func handleHotkeyPressed() async {
+        logger.info("handleHotkeyPressed called")
+        
         guard let appState = appState,
-              let audioService = audioService else { return }
+              let audioService = audioService else {
+            logger.error("appState or audioService is nil")
+            return
+        }
         
         // Check if model is loaded
-        guard await transcriptionService?.isModelLoaded == true else {
+        let modelLoaded = await transcriptionService?.isModelLoaded == true
+        logger.info("Model loaded: \(modelLoaded)")
+        
+        guard modelLoaded else {
             appState.errorMessage = "Model not loaded yet. Please wait..."
+            logger.warning("Model not loaded, aborting")
             return
         }
         
         // Check permissions
+        logger.info("Mic: \(appState.permissionsService.microphoneGranted), Accessibility: \(appState.permissionsService.accessibilityGranted)")
         guard appState.permissionsService.allPermissionsGranted else {
             appState.errorMessage = "Please grant microphone and accessibility permissions"
             return
@@ -61,16 +74,25 @@ final class TranscriptionCoordinator: ObservableObject {
     
     /// Called when hotkey is released - stop recording and transcribe
     func handleHotkeyReleased() async {
+        logger.info("handleHotkeyReleased called")
+        
         guard let appState = appState,
               let audioService = audioService,
               let transcriptionService = transcriptionService,
-              let textInjectionService = textInjectionService else { return }
+              let textInjectionService = textInjectionService else {
+            logger.error("Missing dependencies in handleHotkeyReleased")
+            return
+        }
         
-        guard appState.transcriptionState == .recording else { return }
+        logger.info("Current state: \(String(describing: appState.transcriptionState))")
+        guard appState.transcriptionState == .recording else {
+            logger.warning("Not in recording state, skipping")
+            return
+        }
         
         // Stop recording
         let audioData = await audioService.stopRecording()
-        print("[Coordinator] Recording stopped, duration: \(String(format: "%.2f", audioData.duration))s")
+        logger.info("Recording stopped, duration: \(String(format: "%.2f", audioData.duration))s, samples: \(audioData.samples.count)")
         
         // Check if too short
         guard !audioData.isTooShort else {
@@ -85,10 +107,11 @@ final class TranscriptionCoordinator: ObservableObject {
         do {
             let text = try await transcriptionService.transcribe(
                 audioData,
-                language: appState.language
+                language: appState.language,
+                prompt: appState.vocabularyPrompt
             )
             
-            print("[Coordinator] Transcription: \(text)")
+            logger.info("Transcription result: \(text)")
             appState.lastTranscription = text
             
             // Inject text
@@ -105,7 +128,7 @@ final class TranscriptionCoordinator: ObservableObject {
         } catch {
             appState.transcriptionState = .error(error.localizedDescription)
             appState.errorMessage = error.localizedDescription
-            print("[Coordinator] Transcription failed: \(error)")
+            logger.error("Transcription failed: \(error.localizedDescription)")
             
             // Reset to idle after showing error
             Task {

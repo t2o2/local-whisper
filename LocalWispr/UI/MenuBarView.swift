@@ -128,7 +128,7 @@ struct MenuBarView: View {
                 .fontWeight(.semibold)
             
             // Microphone
-            PermissionRow(
+            MenuPermissionRow(
                 icon: "mic.fill",
                 title: "Microphone",
                 granted: appState.permissionsService.microphoneGranted,
@@ -136,7 +136,7 @@ struct MenuBarView: View {
             )
             
             // Accessibility
-            PermissionRow(
+            MenuPermissionRow(
                 icon: "accessibility",
                 title: "Accessibility",
                 granted: appState.permissionsService.accessibilityGranted,
@@ -146,19 +146,57 @@ struct MenuBarView: View {
     }
     
     // MARK: - Last Transcription
+    @State private var showCopiedFeedback = false
+    
     private var lastTranscriptionSection: some View {
         VStack(alignment: .leading, spacing: 4) {
-            Text("Last Transcription")
-                .font(.caption)
-                .foregroundColor(.secondary)
+            HStack {
+                Text("Last Transcription")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                
+                Spacer()
+                
+                if showCopiedFeedback {
+                    Text("Copied!")
+                        .font(.caption)
+                        .foregroundColor(.green)
+                        .transition(.opacity)
+                }
+            }
             
-            Text(appState.lastTranscription)
-                .font(.body)
-                .lineLimit(3)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(8)
-                .background(Color.secondary.opacity(0.1))
-                .cornerRadius(6)
+            Button(action: copyTranscriptionToClipboard) {
+                Text(appState.lastTranscription)
+                    .font(.body)
+                    .lineLimit(3)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(8)
+                    .background(Color.secondary.opacity(0.1))
+                    .cornerRadius(6)
+            }
+            .buttonStyle(.plain)
+            .help("Click to copy to clipboard")
+            
+            Text("Click to copy")
+                .font(.caption2)
+                .foregroundColor(.secondary)
+        }
+    }
+    
+    private func copyTranscriptionToClipboard() {
+        let pasteboard = NSPasteboard.general
+        pasteboard.clearContents()
+        pasteboard.setString(appState.lastTranscription, forType: .string)
+        
+        withAnimation {
+            showCopiedFeedback = true
+        }
+        
+        // Hide feedback after 2 seconds
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            withAnimation {
+                showCopiedFeedback = false
+            }
         }
     }
     
@@ -190,7 +228,9 @@ struct MenuBarView: View {
     private var actionsSection: some View {
         HStack {
             Button("Settings...") {
-                NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
+                if let appDelegate = NSApp.delegate as? AppDelegate {
+                    appDelegate.showSettings()
+                }
             }
             .buttonStyle(.plain)
             .foregroundColor(.accentColor)
@@ -207,8 +247,8 @@ struct MenuBarView: View {
     }
 }
 
-// MARK: - Permission Row
-struct PermissionRow: View {
+// MARK: - Menu Permission Row (simplified version for menu)
+struct MenuPermissionRow: View {
     let icon: String
     let title: String
     let granted: Bool
@@ -237,9 +277,3 @@ struct PermissionRow: View {
         }
     }
 }
-
-// Preview disabled for SPM builds
-// #Preview {
-//     MenuBarView()
-//         .environmentObject(AppState.shared)
-// }

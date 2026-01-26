@@ -6,7 +6,7 @@ struct LocalWisprApp: App {
     @StateObject private var appState = AppState.shared
     
     var body: some Scene {
-        // Menu bar app - no window
+        // Settings window only - menu bar is handled by AppDelegate
         Settings {
             SettingsView()
                 .environmentObject(appState)
