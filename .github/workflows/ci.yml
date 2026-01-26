@@ -26,8 +26,9 @@ jobs:
       - name: Build
         run: swift build -c release
       
-      - name: Verify app can launch
+      - name: Verify binary
         run: |
-          # Basic smoke test - check binary exists and has correct architecture
+          # Check binary exists and has correct architecture
           file .build/release/LocalWhisper
-          .build/release/LocalWhisper --help 2>&1 || true
+          # Note: This is a GUI app, so we only verify the binary exists
+          # We cannot run it in CI as it requires macOS GUI environment
