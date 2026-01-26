@@ -228,9 +228,8 @@ struct MenuBarView: View {
     private var actionsSection: some View {
         HStack {
             Button("Settings...") {
-                if let appDelegate = NSApp.delegate as? AppDelegate {
-                    appDelegate.showSettings()
-                }
+                // Post notification to open settings
+                NotificationCenter.default.post(name: NSNotification.Name("ShowSettings"), object: nil)
             }
             .buttonStyle(.plain)
             .foregroundColor(.accentColor)

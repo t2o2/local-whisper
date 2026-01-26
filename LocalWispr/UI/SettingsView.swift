@@ -40,7 +40,9 @@ struct SettingsView: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
-        .frame(width: 600, height: 400)
+        .navigationSplitViewStyle(.balanced)
+        .frame(minWidth: 600, minHeight: 500)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .environmentObject(appState)
     }
 }
@@ -406,6 +408,24 @@ struct ShortcutSettingsView: View {
                     Text("Quick Presets")
                         .font(.headline)
                     
+                    // First row
+                    HStack(spacing: 12) {
+                        PresetShortcutButton(
+                            label: "🎤 Mic (F5)",
+                            keyCode: UInt16(kVK_F5),
+                            modifiers: [],
+                            currentShortcut: $currentShortcut
+                        )
+                        
+                        PresetShortcutButton(
+                            label: "🌐 Globe",
+                            keyCode: 179,  // Globe key on newer Macs
+                            modifiers: [],
+                            currentShortcut: $currentShortcut
+                        )
+                    }
+                    
+                    // Second row
                     HStack(spacing: 12) {
                         PresetShortcutButton(
                             label: "⌃⇧Space",
@@ -420,21 +440,11 @@ struct ShortcutSettingsView: View {
                             modifiers: [.maskAlternate],
                             currentShortcut: $currentShortcut
                         )
-                        
-                        PresetShortcutButton(
-                            label: "⌘⇧V",
-                            keyCode: UInt16(kVK_ANSI_V),
-                            modifiers: [.maskCommand, .maskShift],
-                            currentShortcut: $currentShortcut
-                        )
-                        
-                        PresetShortcutButton(
-                            label: "F5",
-                            keyCode: UInt16(kVK_F5),
-                            modifiers: [],
-                            currentShortcut: $currentShortcut
-                        )
                     }
+                    
+                    Text("Note: To use 🎤 Mic or 🌐 Globe, disable macOS Dictation in System Settings → Keyboard → Dictation")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
                 }
                 
                 // Usage instructions
@@ -534,7 +544,13 @@ struct ShortcutRecorderField: NSViewRepresentable {
     
     func updateNSView(_ nsView: ShortcutRecorderNSView, context: Context) {
         if isRecording {
-            nsView.window?.makeFirstResponder(nsView)
+            // Ensure the view becomes first responder and starts monitoring
+            DispatchQueue.main.async {
+                nsView.window?.makeFirstResponder(nsView)
+                nsView.startMonitoring()
+            }
+        } else {
+            nsView.stopMonitoring()
         }
     }
 }
@@ -542,8 +558,10 @@ struct ShortcutRecorderField: NSViewRepresentable {
 class ShortcutRecorderNSView: NSView {
     var onShortcutRecorded: ((UInt16, CGEventFlags) -> Void)?
     var onCancel: (() -> Void)?
+    private var eventMonitor: Any?
     
     override var acceptsFirstResponder: Bool { true }
+    override var canBecomeKeyView: Bool { true }
     
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
@@ -558,7 +576,7 @@ class ShortcutRecorderNSView: NSView {
         path.stroke()
         
         // Draw text
-        let text = "Press shortcut..."
+        let text = "Type your shortcut..."
         let attributes: [NSAttributedString.Key: Any] = [
             .font: NSFont.systemFont(ofSize: 13, weight: .medium),
             .foregroundColor: NSColor.secondaryLabelColor
@@ -572,41 +590,65 @@ class ShortcutRecorderNSView: NSView {
     }
     
     override var intrinsicContentSize: NSSize {
-        NSSize(width: 150, height: 32)
+        NSSize(width: 180, height: 32)
+    }
+    
+    func startMonitoring() {
+        guard eventMonitor == nil else { return }
+        
+        // Use local event monitor to capture key events
+        eventMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { [weak self] event in
+            guard let self = self else { return event }
+            
+            // Escape to cancel
+            if event.keyCode == UInt16(kVK_Escape) {
+                self.onCancel?()
+                return nil // Consume the event
+            }
+            
+            // Get modifiers
+            var modifiers: CGEventFlags = []
+            if event.modifierFlags.contains(.control) {
+                modifiers.insert(.maskControl)
+            }
+            if event.modifierFlags.contains(.option) {
+                modifiers.insert(.maskAlternate)
+            }
+            if event.modifierFlags.contains(.shift) {
+                modifiers.insert(.maskShift)
+            }
+            if event.modifierFlags.contains(.command) {
+                modifiers.insert(.maskCommand)
+            }
+            
+            // Require at least one modifier (unless it's a function key or Globe key)
+            let isFunctionKey = (event.keyCode >= UInt16(kVK_F1) && event.keyCode <= UInt16(kVK_F20))
+            let isGlobeKey = (event.keyCode == 63 || event.keyCode == 179)  // Fn or Globe key
+            
+            if modifiers.isEmpty && !isFunctionKey && !isGlobeKey {
+                // Beep to indicate need modifier
+                NSSound.beep()
+                return nil
+            }
+            
+            self.onShortcutRecorded?(event.keyCode, modifiers)
+            return nil // Consume the event
+        }
+    }
+    
+    func stopMonitoring() {
+        if let monitor = eventMonitor {
+            NSEvent.removeMonitor(monitor)
+            eventMonitor = nil
+        }
+    }
+    
+    deinit {
+        stopMonitoring()
     }
     
     override func keyDown(with event: NSEvent) {
-        // Escape to cancel
-        if event.keyCode == UInt16(kVK_Escape) {
-            onCancel?()
-            return
-        }
-        
-        // Get modifiers
-        var modifiers: CGEventFlags = []
-        if event.modifierFlags.contains(.control) {
-            modifiers.insert(.maskControl)
-        }
-        if event.modifierFlags.contains(.option) {
-            modifiers.insert(.maskAlternate)
-        }
-        if event.modifierFlags.contains(.shift) {
-            modifiers.insert(.maskShift)
-        }
-        if event.modifierFlags.contains(.command) {
-            modifiers.insert(.maskCommand)
-        }
-        
-        // Require at least one modifier (unless it's a function key)
-        let isFunctionKey = (event.keyCode >= UInt16(kVK_F1) && event.keyCode <= UInt16(kVK_F20))
-        
-        if modifiers.isEmpty && !isFunctionKey {
-            // Flash to indicate need modifier
-            NSSound.beep()
-            return
-        }
-        
-        onShortcutRecorded?(event.keyCode, modifiers)
+        // Handled by event monitor, but keep as fallback
     }
 }
 

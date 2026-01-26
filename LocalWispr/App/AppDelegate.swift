@@ -45,6 +45,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         )
         
         print("[AppDelegate] Menu bar setup complete")
+        
+        // Listen for settings notification
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleShowSettings),
+            name: NSNotification.Name("ShowSettings"),
+            object: nil
+        )
+    }
+    
+    @objc private func handleShowSettings() {
+        showSettings()
     }
     
     /// Observe app state changes and update the menu bar icon
@@ -137,22 +149,31 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private var settingsWindow: NSWindow?
     
     func showSettings() {
-        if let window = settingsWindow {
+        print("[AppDelegate] showSettings called")
+        
+        // Close the popover first
+        popover.performClose(nil)
+        
+        if let window = settingsWindow, window.isVisible {
+            print("[AppDelegate] Bringing existing settings window to front")
             window.makeKeyAndOrderFront(nil)
             NSApp.activate(ignoringOtherApps: true)
             return
         }
         
+        print("[AppDelegate] Creating new settings window")
         let settingsView = SettingsView()
             .environmentObject(appState)
         
+        // Default size to comfortably show all content (model grid, vocabulary list, etc.)
         let window = NSWindow(
-            contentRect: NSRect(x: 0, y: 0, width: 600, height: 400),
-            styleMask: [.titled, .closable, .resizable],
+            contentRect: NSRect(x: 0, y: 0, width: 800, height: 1200),
+            styleMask: [.titled, .closable, .resizable, .miniaturizable],
             backing: .buffered,
             defer: false
         )
         window.title = "LocalWispr Settings"
+        window.minSize = NSSize(width: 600, height: 500)
         window.contentViewController = NSHostingController(rootView: settingsView)
         window.center()
         window.makeKeyAndOrderFront(nil)
@@ -160,6 +181,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         self.settingsWindow = window
         NSApp.activate(ignoringOtherApps: true)
+        print("[AppDelegate] Settings window should be visible now")
     }
     
     private func setupGlobalShortcut() {
