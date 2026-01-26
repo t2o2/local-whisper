@@ -1,4 +1,4 @@
-# LocalWispr
+# LocalWhisper
 
 A local voice-to-text macOS application powered by WhisperKit. Transcribe speech directly into any application using a global keyboard shortcut — 100% offline, no data ever leaves your device.
 
@@ -22,8 +22,8 @@ A local voice-to-text macOS application powered by WhisperKit. Transcribe speech
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/local-wispr.git
-   cd local-wispr
+   git clone https://github.com/yourusername/local-whisper.git
+   cd local-whisper
    ```
 
 2. Build and run:
@@ -39,7 +39,7 @@ A local voice-to-text macOS application powered by WhisperKit. Transcribe speech
 
 ### Permissions Required
 
-LocalWispr requires two permissions:
+LocalWhisper requires two permissions:
 
 1. **Microphone**: To capture audio for transcription
 2. **Accessibility**: For global keyboard shortcuts and text injection
@@ -48,7 +48,7 @@ The app will guide you through granting these permissions on first launch.
 
 ## Usage
 
-1. Launch LocalWispr - it appears in your menu bar as a waveform icon
+1. Launch LocalWhisper - it appears in your menu bar as a waveform icon
 2. Grant required permissions when prompted
 3. Wait for the model to load (first launch may take longer)
 4. Press `Cmd+Shift+Space` (or your custom shortcut) to start recording
@@ -57,13 +57,13 @@ The app will guide you through granting these permissions on first launch.
 
 ### Customizing the Shortcut
 
-1. Click the LocalWispr icon in the menu bar
+1. Click the LocalWhisper icon in the menu bar
 2. Click on the shortcut recorder
 3. Press your desired key combination
 
 ## Models
 
-LocalWispr uses [WhisperKit](https://github.com/argmaxinc/WhisperKit), which provides optimized CoreML models for Apple Silicon. Choose a model based on your needs:
+LocalWhisper uses [WhisperKit](https://github.com/argmaxinc/WhisperKit), which provides optimized CoreML models for Apple Silicon. Choose a model based on your needs:
 
 ### Model Comparison
 
@@ -109,7 +109,7 @@ How long you'll wait after releasing the record button:
 
 ### Changing Models
 
-1. Click the LocalWispr icon in the menu bar
+1. Click the LocalWhisper icon in the menu bar
 2. Click ⚙️ Settings (or the gear icon)
 3. Go to **Model** tab
 4. Select your preferred model
@@ -118,7 +118,7 @@ The first time you select a model, it will be downloaded from HuggingFace (~30s 
 
 ### Why WhisperKit? (vs whisper.cpp)
 
-LocalWispr uses **WhisperKit** instead of other Whisper implementations like **whisper.cpp**. Here's why:
+LocalWhisper uses **WhisperKit** instead of other Whisper implementations like **whisper.cpp**. Here's why:
 
 | Aspect | WhisperKit | whisper.cpp |
 |--------|------------|-------------|
@@ -156,7 +156,7 @@ swift run whisperkit-cli transcribe \
 ## Architecture
 
 ```
-LocalWispr/
+LocalWhisper/
 ├── App/                 # App entry point, delegate, global state
 ├── UI/                  # SwiftUI views (menu bar, settings)
 ├── Services/            # Core services
@@ -171,7 +171,7 @@ LocalWispr/
 
 ## Privacy
 
-LocalWispr is designed with privacy in mind:
+LocalWhisper is designed with privacy in mind:
 
 - ✅ All transcription happens locally using WhisperKit
 - ✅ No audio is ever sent over the network

@@ -105,7 +105,7 @@ struct BenchmarkResult {
  IMPORTANT: This script provides a framework for benchmarking WhisperKit models.
  
  To run actual benchmarks, you need to:
- 1. Build the LocalWispr app which includes WhisperKit
+ 1. Build the LocalWhisper app which includes WhisperKit
  2. Use the app's built-in model switching to test different models
  3. Or create a separate Swift package that imports WhisperKit
  
@@ -121,7 +121,7 @@ struct BenchmarkResult {
  Speed Factor = seconds of audio processed per second of wall-clock time
  E.g., 111x means 111 seconds of audio processed in 1 second
  
- For LocalWispr's use case (short dictation ~5-30 seconds):
+ For LocalWhisper's use case (short dictation ~5-30 seconds):
  - Tiny/Base: Imperceptible delay (<0.5s)
  - Small: Very fast (~1s for 30s audio)
  - Medium: Noticeable (~2-3s for 30s audio)  
@@ -188,7 +188,7 @@ let referenceBenchmarks = """
 print("""
 ╔══════════════════════════════════════════════════════════════════════════════╗
 ║                      WhisperKit Model Benchmark Reference                    ║
-║                              LocalWispr Project                              ║
+║                              LocalWhisper Project                              ║
 ╚══════════════════════════════════════════════════════════════════════════════╝
 """)
 
@@ -200,7 +200,7 @@ print("""
 ║                           How to Run Live Benchmarks                         ║
 ╠══════════════════════════════════════════════════════════════════════════════╣
 ║                                                                              ║
-║  Option 1: Use LocalWispr App                                                ║
+║  Option 1: Use LocalWhisper App                                                ║
 ║  1. Build and run: swift run                                                 ║
 ║  2. Open Settings → Model                                                    ║
 ║  3. Switch between models and observe load times                             ║

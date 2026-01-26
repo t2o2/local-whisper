@@ -24,6 +24,7 @@ DerivedData/
 build/
 *.app
 *.dSYM
+dist/
 
 # IDE
 .idea/

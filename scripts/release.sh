@@ -100,6 +100,10 @@ EOF
 # Create PkgInfo
 echo -n "APPL????" > "$APP_BUNDLE/Contents/PkgInfo"
 
+# Fix rpath for Sparkle framework
+echo "🔧 Fixing library paths..."
+install_name_tool -add_rpath "@executable_path/../Frameworks" "$APP_BUNDLE/Contents/MacOS/$APP_NAME" 2>/dev/null || true
+
 # Sign the app (ad-hoc signing for local distribution)
 echo "🔐 Signing app (ad-hoc)..."
 codesign --force --deep --sign - "$APP_BUNDLE"

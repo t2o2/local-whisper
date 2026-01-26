@@ -1,8 +1,8 @@
-# CLAUDE.md - LocalWispr Development Guidelines
+# CLAUDE.md - LocalWhisper Development Guidelines
 
 ## Project Overview
 
-LocalWispr is a macOS menu bar application for local voice-to-text transcription using WhisperKit. It captures audio via global hotkeys and injects transcribed text into any focused application.
+LocalWhisper is a macOS menu bar application for local voice-to-text transcription using WhisperKit. It captures audio via global hotkeys and injects transcribed text into any focused application.
 
 ## Build Commands
 

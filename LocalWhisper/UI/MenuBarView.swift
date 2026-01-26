@@ -42,9 +42,8 @@ struct MenuBarView: View {
     // MARK: - Header
     private var headerSection: some View {
         HStack {
-            Image(systemName: "waveform")
+            Text("🎙️")
                 .font(.title2)
-                .foregroundColor(.accentColor)
             
             Text("LocalWhisper")
                 .font(.headline)
