@@ -19,7 +19,10 @@ let package = Package(
                 "WhisperKit"
             ],
             path: "LocalWhisper",
-            exclude: ["LocalWhisper.entitlements"]
+            exclude: ["LocalWhisper.entitlements"],
+            resources: [
+                .copy("Resources/AppIcon.icns")
+            ]
         )
     ]
 )
