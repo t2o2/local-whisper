@@ -207,14 +207,41 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     private func initializeServices() async {
+        log("[AppDelegate] initializeServices() called")
+        
         // Check permissions first
         await appState.permissionsService.checkAllPermissions()
+        log("[AppDelegate] Permissions checked - Mic: \(appState.permissionsService.microphoneGranted), Accessibility: \(appState.permissionsService.accessibilityGranted)")
         
-        // Load whisper model in background
+        // Load whisper model in background (use the user's selected model)
         if appState.permissionsService.microphoneGranted {
-            await appState.transcriptionService.loadModel()
+            log("[AppDelegate] 🚀 Starting model load: \(appState.selectedModel)")
+            await appState.transcriptionService.loadModel(modelName: appState.selectedModel)
             // Update model loaded state after loading completes
             appState.isModelLoaded = await appState.transcriptionService.isModelLoaded
+            log("[AppDelegate] ✅ Model load complete - isModelLoaded: \(appState.isModelLoaded)")
+        } else {
+            log("[AppDelegate] ⚠️ Skipping model load - microphone permission not granted")
+        }
+    }
+    
+    /// Log to both console and file for debugging
+    private func log(_ message: String) {
+        print(message)
+        let logFile = FileManager.default.homeDirectoryForCurrentUser
+            .appendingPathComponent("Library/Logs/LocalWispr.log")
+        let timestamp = ISO8601DateFormatter().string(from: Date())
+        let logMessage = "[\(timestamp)] \(message)\n"
+        if let data = logMessage.data(using: .utf8) {
+            if FileManager.default.fileExists(atPath: logFile.path) {
+                if let handle = try? FileHandle(forWritingTo: logFile) {
+                    handle.seekToEndOfFile()
+                    handle.write(data)
+                    handle.closeFile()
+                }
+            } else {
+                try? data.write(to: logFile)
+            }
         }
     }
     

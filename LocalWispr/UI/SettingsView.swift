@@ -14,10 +14,12 @@ struct SettingsView: View {
                     .tag(1)
                 Label("Shortcuts", systemImage: "keyboard")
                     .tag(2)
-                Label("Permissions", systemImage: "lock.shield")
+                Label("Network", systemImage: "network")
                     .tag(3)
-                Label("About", systemImage: "info.circle")
+                Label("Permissions", systemImage: "lock.shield")
                     .tag(4)
+                Label("About", systemImage: "info.circle")
+                    .tag(5)
             }
             .listStyle(.sidebar)
             .frame(minWidth: 150)
@@ -31,8 +33,10 @@ struct SettingsView: View {
                 case 2:
                     ShortcutSettingsView()
                 case 3:
-                    PermissionsSettingsView()
+                    NetworkSettingsView()
                 case 4:
+                    PermissionsSettingsView()
+                case 5:
                     AboutView()
                 default:
                     ModelSettingsView()
@@ -719,6 +723,195 @@ struct InstructionRow: View {
             
             Text(text)
                 .font(.body)
+        }
+    }
+}
+
+// MARK: - Network Settings
+struct NetworkSettingsView: View {
+    @EnvironmentObject var appState: AppState
+    @State private var testingConnection = false
+    @State private var connectionStatus: String?
+    
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 24) {
+                // Header
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Network & Proxy")
+                        .font(.title2)
+                        .fontWeight(.semibold)
+                    Text("Configure proxy settings for downloading models from HuggingFace.")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                }
+                
+                // Proxy Enable Toggle
+                VStack(alignment: .leading, spacing: 16) {
+                    Toggle(isOn: $appState.proxyEnabled) {
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text("Enable Proxy")
+                                .font(.headline)
+                            Text("Use a proxy server for model downloads")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                    .toggleStyle(.switch)
+                }
+                .padding()
+                .background(Color(nsColor: .controlBackgroundColor))
+                .cornerRadius(12)
+                
+                // Proxy Configuration
+                if appState.proxyEnabled {
+                    VStack(alignment: .leading, spacing: 16) {
+                        Text("Proxy Configuration")
+                            .font(.headline)
+                        
+                        // Proxy Type
+                        HStack {
+                            Text("Type:")
+                                .frame(width: 60, alignment: .leading)
+                            Picker("", selection: $appState.proxyType) {
+                                ForEach(AppState.ProxyType.allCases, id: \.self) { type in
+                                    Text(type.rawValue).tag(type)
+                                }
+                            }
+                            .pickerStyle(.segmented)
+                            .frame(width: 200)
+                        }
+                        
+                        // Host
+                        HStack {
+                            Text("Host:")
+                                .frame(width: 60, alignment: .leading)
+                            TextField("127.0.0.1", text: $appState.proxyHost)
+                                .textFieldStyle(.roundedBorder)
+                                .frame(width: 200)
+                        }
+                        
+                        // Port
+                        HStack {
+                            Text("Port:")
+                                .frame(width: 60, alignment: .leading)
+                            TextField("1087", text: $appState.proxyPort)
+                                .textFieldStyle(.roundedBorder)
+                                .frame(width: 100)
+                        }
+                        
+                        // Current proxy URL display
+                        if !appState.proxyHost.isEmpty && !appState.proxyPort.isEmpty {
+                            HStack {
+                                Text("Proxy URL:")
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                                Text(proxyURLString)
+                                    .font(.caption.monospaced())
+                                    .foregroundStyle(.secondary)
+                            }
+                        }
+                    }
+                    .padding()
+                    .background(Color(nsColor: .controlBackgroundColor))
+                    .cornerRadius(12)
+                    
+                    // Test Connection
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("Test Connection")
+                            .font(.headline)
+                        
+                        HStack {
+                            Button {
+                                testConnection()
+                            } label: {
+                                if testingConnection {
+                                    ProgressView()
+                                        .scaleEffect(0.7)
+                                        .frame(width: 16, height: 16)
+                                } else {
+                                    Label("Test HuggingFace Connection", systemImage: "network")
+                                }
+                            }
+                            .buttonStyle(.bordered)
+                            .disabled(testingConnection)
+                            
+                            if let status = connectionStatus {
+                                Text(status)
+                                    .font(.caption)
+                                    .foregroundStyle(status.contains("✓") ? .green : .red)
+                            }
+                        }
+                    }
+                    .padding()
+                    .background(Color(nsColor: .controlBackgroundColor))
+                    .cornerRadius(12)
+                }
+                
+                // Help text
+                VStack(alignment: .leading, spacing: 8) {
+                    Label("Tips", systemImage: "lightbulb")
+                        .font(.headline)
+                    
+                    VStack(alignment: .leading, spacing: 4) {
+                        tipRow("Common proxy ports: 1080 (SOCKS), 1087 (HTTP), 7890 (Clash)")
+                        tipRow("For Clash/V2Ray, use HTTP type with their HTTP proxy port")
+                        tipRow("SOCKS5 support depends on the underlying network library")
+                        tipRow("After changing proxy, restart the app to apply for model downloads")
+                    }
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                }
+                .padding()
+                .background(Color.blue.opacity(0.1))
+                .cornerRadius(12)
+                
+                Spacer()
+            }
+            .padding(24)
+        }
+    }
+    
+    private var proxyURLString: String {
+        switch appState.proxyType {
+        case .http, .https:
+            return "http://\(appState.proxyHost):\(appState.proxyPort)"
+        case .socks5:
+            return "socks5://\(appState.proxyHost):\(appState.proxyPort)"
+        }
+    }
+    
+    private func tipRow(_ text: String) -> some View {
+        HStack(alignment: .top, spacing: 8) {
+            Text("•")
+            Text(text)
+        }
+    }
+    
+    private func testConnection() {
+        testingConnection = true
+        connectionStatus = nil
+        
+        Task {
+            do {
+                let url = URL(string: "https://huggingface.co/argmaxinc/whisperkit-coreml")!
+                let (_, response) = try await URLSession.shared.data(from: url)
+                
+                await MainActor.run {
+                    if let httpResponse = response as? HTTPURLResponse,
+                       (200...399).contains(httpResponse.statusCode) {
+                        connectionStatus = "✓ Connected successfully"
+                    } else {
+                        connectionStatus = "✗ Connection failed"
+                    }
+                    testingConnection = false
+                }
+            } catch {
+                await MainActor.run {
+                    connectionStatus = "✗ Error: \(error.localizedDescription)"
+                    testingConnection = false
+                }
+            }
         }
     }
 }
