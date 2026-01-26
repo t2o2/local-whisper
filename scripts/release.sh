@@ -7,9 +7,6 @@ set -e
 VERSION="${1:-1.0.0}"
 APP_NAME="LocalWhisper"
 BUNDLE_ID="com.localwhisper.app"
-GITHUB_REPO="t2o2/local-whisper"
-# Use GitHub Pages for appcast (more reliable than raw.githubusercontent.com)
-APPCAST_URL="https://t2o2.github.io/local-whisper/appcast.xml"
 
 # Directories
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -34,7 +31,6 @@ swift build -c release
 echo "📁 Creating app bundle..."
 mkdir -p "$APP_BUNDLE/Contents/MacOS"
 mkdir -p "$APP_BUNDLE/Contents/Resources"
-mkdir -p "$APP_BUNDLE/Contents/Frameworks"
 
 # Copy executable
 cp "$BUILD_DIR/LocalWhisper" "$APP_BUNDLE/Contents/MacOS/"
@@ -46,14 +42,7 @@ elif [ -f "$PROJECT_DIR/LocalWhisper.app/Contents/Resources/AppIcon.icns" ]; the
     cp "$PROJECT_DIR/LocalWhisper.app/Contents/Resources/AppIcon.icns" "$APP_BUNDLE/Contents/Resources/"
 fi
 
-# Copy Sparkle framework (for auto-updates)
-SPARKLE_FRAMEWORK="$PROJECT_DIR/.build/artifacts/sparkle/Sparkle/Sparkle.xcframework/macos-arm64_x86_64/Sparkle.framework"
-if [ -d "$SPARKLE_FRAMEWORK" ]; then
-    echo "📦 Copying Sparkle framework..."
-    cp -R "$SPARKLE_FRAMEWORK" "$APP_BUNDLE/Contents/Frameworks/"
-fi
-
-# Create Info.plist with Sparkle feed URL
+# Create Info.plist
 cat > "$APP_BUNDLE/Contents/Info.plist" << EOF
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -87,22 +76,12 @@ cat > "$APP_BUNDLE/Contents/Info.plist" << EOF
     <string>public.app-category.productivity</string>
     <key>NSHighResolutionCapable</key>
     <true/>
-    <key>SUFeedURL</key>
-    <string>$APPCAST_URL</string>
-    <key>SUEnableAutomaticChecks</key>
-    <true/>
-    <key>SUPublicEDKey</key>
-    <string></string>
 </dict>
 </plist>
 EOF
 
 # Create PkgInfo
 echo -n "APPL????" > "$APP_BUNDLE/Contents/PkgInfo"
-
-# Fix rpath for Sparkle framework
-echo "🔧 Fixing library paths..."
-install_name_tool -add_rpath "@executable_path/../Frameworks" "$APP_BUNDLE/Contents/MacOS/$APP_NAME" 2>/dev/null || true
 
 # Sign the app (ad-hoc signing for local distribution)
 echo "🔐 Signing app (ad-hoc)..."

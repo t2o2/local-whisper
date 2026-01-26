@@ -16,12 +16,10 @@ struct SettingsView: View {
                     .tag(2)
                 Label("Network", systemImage: "network")
                     .tag(3)
-                Label("Updates", systemImage: "arrow.triangle.2.circlepath")
-                    .tag(4)
                 Label("Permissions", systemImage: "lock.shield")
-                    .tag(5)
+                    .tag(4)
                 Label("About", systemImage: "info.circle")
-                    .tag(6)
+                    .tag(5)
             }
             .listStyle(.sidebar)
             .frame(minWidth: 150)
@@ -37,10 +35,8 @@ struct SettingsView: View {
                 case 3:
                     NetworkSettingsView()
                 case 4:
-                    UpdatesSettingsView()
-                case 5:
                     PermissionsSettingsView()
-                case 6:
+                case 5:
                     AboutView()
                 default:
                     ModelSettingsView()
@@ -959,123 +955,6 @@ struct NetworkSettingsView: View {
                 }
             }
         }
-    }
-}
-
-// MARK: - Updates Settings
-struct UpdatesSettingsView: View {
-    @StateObject private var updaterService = UpdaterService()
-    
-    var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 24) {
-                // Header
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("Software Updates")
-                        .font(.title2)
-                        .fontWeight(.semibold)
-                    Text("Keep LocalWhisper up to date with the latest features and fixes.")
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
-                }
-                
-                // Auto-update toggle
-                VStack(alignment: .leading, spacing: 16) {
-                    Toggle(isOn: $updaterService.automaticallyChecksForUpdates) {
-                        VStack(alignment: .leading, spacing: 2) {
-                            Text("Automatically check for updates")
-                                .font(.headline)
-                            Text("LocalWhisper will check for updates periodically")
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
-                        }
-                    }
-                    .toggleStyle(.switch)
-                }
-                .padding()
-                .background(Color(nsColor: .controlBackgroundColor))
-                .cornerRadius(12)
-                
-                // Manual check section
-                VStack(alignment: .leading, spacing: 16) {
-                    Text("Check for Updates")
-                        .font(.headline)
-                    
-                    HStack {
-                        Button {
-                            updaterService.checkForUpdates()
-                        } label: {
-                            if updaterService.isCheckingForUpdates {
-                                ProgressView()
-                                    .scaleEffect(0.7)
-                                    .frame(width: 16, height: 16)
-                            } else {
-                                Label("Check Now", systemImage: "arrow.triangle.2.circlepath")
-                            }
-                        }
-                        .buttonStyle(.borderedProminent)
-                        .disabled(!updaterService.canCheckForUpdates || updaterService.isCheckingForUpdates)
-                        
-                        Spacer()
-                        
-                        if let lastCheck = updaterService.lastUpdateCheckDate {
-                            Text("Last checked: \(lastCheck, formatter: dateFormatter)")
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
-                        }
-                    }
-                }
-                .padding()
-                .background(Color(nsColor: .controlBackgroundColor))
-                .cornerRadius(12)
-                
-                // Current version info
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("Current Version")
-                        .font(.headline)
-                    
-                    HStack {
-                        Text("LocalWhisper")
-                        Spacer()
-                        Text(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "1.0.0")
-                            .foregroundStyle(.secondary)
-                    }
-                    
-                    HStack {
-                        Text("Build")
-                        Spacer()
-                        Text(Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "1")
-                            .foregroundStyle(.secondary)
-                    }
-                }
-                .padding()
-                .background(Color(nsColor: .controlBackgroundColor))
-                .cornerRadius(12)
-                
-                // Info
-                VStack(alignment: .leading, spacing: 8) {
-                    Label("About Updates", systemImage: "info.circle")
-                        .font(.headline)
-                    
-                    Text("Updates are downloaded from GitHub releases and installed automatically. Your settings and preferences will be preserved.")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                }
-                .padding()
-                .background(Color.blue.opacity(0.1))
-                .cornerRadius(12)
-                
-                Spacer()
-            }
-            .padding(24)
-        }
-    }
-    
-    private var dateFormatter: DateFormatter {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-        formatter.timeStyle = .short
-        return formatter
     }
 }
 
