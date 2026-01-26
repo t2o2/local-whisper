@@ -2,24 +2,26 @@
 import PackageDescription
 
 let package = Package(
-    name: "LocalWispr",
+    name: "LocalWhisper",
     platforms: [
         .macOS(.v14)
     ],
     products: [
-        .executable(name: "LocalWispr", targets: ["LocalWispr"])
+        .executable(name: "LocalWhisper", targets: ["LocalWhisper"])
     ],
     dependencies: [
-        .package(url: "https://github.com/argmaxinc/WhisperKit.git", from: "0.9.0")
+        .package(url: "https://github.com/argmaxinc/WhisperKit.git", from: "0.9.0"),
+        .package(url: "https://github.com/sparkle-project/Sparkle.git", from: "2.5.0")
     ],
     targets: [
         .executableTarget(
-            name: "LocalWispr",
+            name: "LocalWhisper",
             dependencies: [
-                "WhisperKit"
+                "WhisperKit",
+                "Sparkle"
             ],
-            path: "LocalWispr",
-            exclude: ["LocalWispr.entitlements"]
+            path: "LocalWhisper",
+            exclude: ["LocalWhisper.entitlements"]
         )
     ]
 )

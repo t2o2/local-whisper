@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <channel>
+        <title>LocalWispr Updates</title>
+        <link>https://github.com/yourusername/local-wispr</link>
+        <description>Most recent updates to LocalWispr</description>
+        <language>en</language>
+        <item>
+            <title>Version 1.0.1</title>
+            <description><![CDATA[
+                <h2>What's New in 1.0.1</h2>
+                <p>Initial release with Sparkle auto-update support</p>
+            ]]></description>
+            <pubDate>Mon, 26 Jan 2026 18:59:07 +0000</pubDate>
+            <enclosure 
+                url="https://github.com/chuanbai/local-wispr/releases/download/v1.0.1/LocalWispr-1.0.1.zip"
+                sparkle:version="1.0.1"
+                sparkle:shortVersionString="1.0.1"
+                length="7093546"
+                type="application/octet-stream"
+            />
+            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+        </item>
+    </channel>
+</rss>
