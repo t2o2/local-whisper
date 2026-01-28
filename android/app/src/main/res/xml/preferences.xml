@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        android:key="category_model"
+        android:title="@string/category_model">
+
+        <ListPreference
+            android:key="model"
+            android:title="@string/pref_model_title"
+            android:summary="@string/pref_model_summary"
+            android:defaultValue="BASE"
+            app:useSimpleSummaryProvider="false" />
+
+        <Preference
+            android:key="storage_info"
+            android:title="Storage"
+            android:summary="Calculating..."
+            android:selectable="false" />
+
+        <Preference
+            android:key="clear_models"
+            android:title="Clear Downloaded Models"
+            android:summary="Delete all downloaded models to free up space" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="category_transcription"
+        android:title="@string/category_transcription">
+
+        <EditTextPreference
+            android:key="language"
+            android:title="@string/pref_language_title"
+            android:summary="Current: en"
+            android:defaultValue="en"
+            android:inputType="text" />
+
+        <SwitchPreferenceCompat
+            android:key="auto_punctuation"
+            android:title="@string/pref_auto_punctuation_title"
+            android:summary="@string/pref_auto_punctuation_summary"
+            android:defaultValue="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="category_about"
+        android:title="About">
+
+        <Preference
+            android:key="about"
+            android:title="LocalWhisper"
+            android:summary="Version 1.0.0"
+            android:selectable="false" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

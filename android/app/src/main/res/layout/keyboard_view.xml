@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/keyboard_background"
+    android:padding="8dp">
+
+    <!-- Status area -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp">
+
+        <TextView
+            android:id="@+id/status_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Hold mic to speak"
+            android:textColor="@color/text_secondary"
+            android:textSize="14sp" />
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:visibility="gone"
+            android:indeterminateTint="@color/accent" />
+
+    </LinearLayout>
+
+    <!-- Main voice button area -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_marginVertical="8dp">
+
+        <ImageButton
+            android:id="@+id/mic_button"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_mic"
+            android:background="@drawable/mic_button_background"
+            android:scaleType="center"
+            android:contentDescription="@string/mic_button_description"
+            app:tint="@color/white" />
+
+    </FrameLayout>
+
+    <!-- Bottom row with utility keys -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <!-- Backspace -->
+        <ImageButton
+            android:id="@+id/backspace_button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/ic_backspace"
+            android:background="@drawable/key_background"
+            android:scaleType="center"
+            android:contentDescription="@string/backspace_description"
+            app:tint="@color/text_primary" />
+
+        <!-- Space -->
+        <View
+            android:id="@+id/space_button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:layout_marginHorizontal="4dp"
+            android:background="@drawable/space_background"
+            android:contentDescription="@string/space_description" />
+
+        <!-- Enter -->
+        <ImageButton
+            android:id="@+id/enter_button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/ic_enter"
+            android:background="@drawable/key_background"
+            android:scaleType="center"
+            android:contentDescription="@string/enter_description"
+            app:tint="@color/text_primary" />
+
+    </LinearLayout>
+
+</LinearLayout>

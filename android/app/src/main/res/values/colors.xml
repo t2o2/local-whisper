@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Primary colors -->
+    <color name="primary">#1976D2</color>
+    <color name="primary_dark">#1565C0</color>
+    <color name="primary_variant">#0D47A1</color>
+
+    <!-- Accent colors -->
+    <color name="accent">#2196F3</color>
+    <color name="accent_pressed">#1565C0</color>
+
+    <!-- Background colors -->
+    <color name="background">#FAFAFA</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="keyboard_background">#ECEFF1</color>
+    <color name="key_background">#FFFFFF</color>
+    <color name="key_pressed">#E0E0E0</color>
+    <color name="space_background">#CFD8DC</color>
+
+    <!-- Text colors -->
+    <color name="text_primary">#212121</color>
+    <color name="text_secondary">#757575</color>
+    <color name="text_on_primary">#FFFFFF</color>
+
+    <!-- State colors -->
+    <color name="success">#4CAF50</color>
+    <color name="error">#F44336</color>
+    <color name="warning">#FF9800</color>
+    <color name="disabled">#BDBDBD</color>
+
+    <!-- Other -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="recording">#FF5252</color>
+</resources>
