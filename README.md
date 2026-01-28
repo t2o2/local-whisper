@@ -49,6 +49,7 @@ Text is automatically typed into your focused app.
 - 🔒 **100% Offline** — All processing on-device, no data leaves your Mac
 - ⚡ **Fast** — CoreML + Neural Engine acceleration on Apple Silicon
 - 📝 **Auto-inject** — Transcribed text typed directly into focused field
+- 📖 **Custom Dictionary** — Add words/names for accurate transcription of technical terms, proper nouns, etc.
 
 ## Requirements
 
@@ -61,7 +62,17 @@ Text is automatically typed into your focused app.
 Click the menu bar icon to:
 - Change keyboard shortcut
 - Select transcription model (tiny → large-v3)
+- Add custom vocabulary (product names, technical terms, proper nouns)
 - Adjust settings
+
+### Custom Dictionary
+
+Add words you want transcribed correctly in Settings → Custom Vocabulary. This helps the model recognize:
+- Product names (e.g., "WhisperKit", "CoreML")
+- Technical terms (e.g., "Kubernetes", "PostgreSQL")  
+- Proper nouns (e.g., names of people, places, companies)
+
+> **Tip**: Works best with larger models (small, medium, large-v3). The dictionary provides spelling hints, not instructions.
 
 <p align="center">
   <img src="docs/images/settings.png" alt="LocalWhisper Settings" width="600">
