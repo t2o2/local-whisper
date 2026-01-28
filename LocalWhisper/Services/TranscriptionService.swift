@@ -100,7 +100,9 @@ actor TranscriptionService {
     /// - Parameters:
     ///   - audio: The audio data to transcribe
     ///   - language: Language code (e.g., "en", "zh") or empty for auto-detect
-    ///   - prompt: Optional initial prompt with custom vocabulary to improve accuracy
+    ///   - prompt: Optional initial prompt with custom vocabulary to improve accuracy.
+    ///             This is not an LLM-style prompt - it provides examples of spelling and style
+    ///             that the model should follow. Works best with larger models.
     func transcribe(_ audio: AudioData, language: String = "en", prompt: String? = nil) async throws -> String {
         guard let whisper = whisperKit else {
             throw TranscriptionError.modelNotLoaded
@@ -115,20 +117,25 @@ actor TranscriptionService {
         
         let startTime = CFAbsoluteTimeGetCurrent()
         
-        // Configure decoding options
-        // Note: Custom vocabulary/prompt feature depends on WhisperKit version
-        // For now, we use standard decoding options
+        // Build prompt tokens from custom vocabulary if provided
+        // The prompt tokens guide the model's spelling and style without being an instruction
+        var promptTokens: [Int]? = nil
+        if let prompt = prompt, !prompt.isEmpty, let tokenizer = whisper.tokenizer {
+            // Encode the prompt text and filter out special tokens
+            // Special tokens (>= specialTokenBegin) should not be included in the prompt
+            let encoded = tokenizer.encode(text: " " + prompt)
+            promptTokens = encoded.filter { $0 < tokenizer.specialTokens.specialTokenBegin }
+            print("[TranscriptionService] 📝 Custom vocabulary prompt: \"\(prompt)\" (\(promptTokens?.count ?? 0) tokens)")
+        }
+        
+        // Configure decoding options with prompt tokens for custom vocabulary
         let options = DecodingOptions(
             task: .transcribe,
             language: language.isEmpty ? nil : language,
             skipSpecialTokens: true,
-            withoutTimestamps: true
+            withoutTimestamps: true,
+            promptTokens: promptTokens
         )
-        
-        if let prompt = prompt {
-            print("[TranscriptionService] Custom vocabulary context: \(prompt)")
-            // Future: when WhisperKit supports prompt, use it here
-        }
         
         let results = try await whisper.transcribe(
             audioArray: audio.samples,
