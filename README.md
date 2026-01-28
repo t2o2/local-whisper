@@ -37,14 +37,15 @@ swift build && swift run
 ### Use
 
 1. Grant **Microphone** and **Accessibility** permissions when prompted
-2. Press `Cmd+Shift+Space` to record
-3. Speak, then release to transcribe
+2. **Hold** your shortcut key (default: `Ctrl+Shift+Space`) to start recording
+3. Speak while holding the key
+4. **Release** to stop recording and transcribe
 
 Text is automatically typed into your focused app.
 
 ## Features
 
-- 🎤 **Global Hotkey** — Record from anywhere with `Cmd+Shift+Space`
+- 🎤 **Global Hotkey** — Hold to record, release to transcribe (default: `Ctrl+Shift+Space`)
 - 🔒 **100% Offline** — All processing on-device, no data leaves your Mac
 - ⚡ **Fast** — CoreML + Neural Engine acceleration on Apple Silicon
 - 📝 **Auto-inject** — Transcribed text typed directly into focused field
